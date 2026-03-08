@@ -756,6 +756,14 @@ const translations: Record<Language, TranslationKeys> = {
     recordingSaved: 'Edekọla ndekọ!',
     recording: 'Na-edeko...',
     stopRecording: 'Kwụsị Ndekọ',
+    followers: 'Ndị na-eso',
+    follow: 'Soro',
+    unfollow: 'Kwụsị Ịso',
+    answerHistory: 'Akụkọ Azịza',
+    trending: 'Ndị na-ewu ewu',
+    mostUpvoted: 'Kacha ntụ aka',
+    recent: 'Ọhụrụ',
+    answeredTab: 'Azaala',
   },
 
   pcm: {
