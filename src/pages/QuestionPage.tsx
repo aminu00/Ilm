@@ -11,6 +11,8 @@ import { useUserRoles } from '@/hooks/useProfile';
 import { useToggleBookmark } from '@/hooks/useBookmarks';
 import { useAuth } from '@/contexts/AuthContext';
 import { useLanguage } from '@/contexts/LanguageContext';
+import ShareButton from '@/components/questions/ShareButton';
+import CommentSection from '@/components/questions/CommentSection';
 import { formatDistanceToNow } from 'date-fns';
 import { toast } from 'sonner';
 
