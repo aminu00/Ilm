@@ -127,6 +127,16 @@ type TranslationKeys = {
   removeScholarRole: string;
   confirmAction: string;
   dashboard: string;
+  // Share & Comments
+  linkCopied: string;
+  copyLink: string;
+  shareQuestion: string;
+  showComments: string;
+  hideComments: string;
+  noComments: string;
+  writeComment: string;
+  commentPosted: string;
+  commentFailed: string;
 };
 
 const translations: Record<Language, TranslationKeys> = {
