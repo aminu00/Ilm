@@ -367,6 +367,12 @@ const translations: Record<Language, TranslationKeys> = {
     writeComment: 'اكتب تعليقًا...',
     commentPosted: 'تم نشر التعليق!',
     commentFailed: 'فشل نشر التعليق',
+    micPermissionDenied: 'تم رفض الوصول إلى الميكروفون',
+    cameraPermissionDenied: 'تم رفض الوصول إلى الكاميرا',
+    uploadFailed: 'فشل الرفع',
+    recordingSaved: 'تم حفظ التسجيل!',
+    recording: 'جاري التسجيل...',
+    stopRecording: 'إيقاف التسجيل',
   },
 
   yo: {
