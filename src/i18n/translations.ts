@@ -669,6 +669,15 @@ const translations: Record<Language, TranslationKeys> = {
     removeScholarRole: 'Wepụ Ọrụ Onye Ọkà',
     confirmAction: 'Ị ji n\'aka?',
     dashboard: 'Dashịbọọdụ',
+    linkCopied: 'Edekọla njikọ!',
+    copyLink: 'Detuo Njikọ',
+    shareQuestion: 'Kekọrịta',
+    showComments: 'Okwu',
+    hideComments: 'Zoo okwu',
+    noComments: 'Enweghị okwu',
+    writeComment: 'Dee okwu...',
+    commentPosted: 'Etinyela okwu!',
+    commentFailed: 'Enweghị ike itinye okwu',
   },
 
   pcm: {
