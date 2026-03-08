@@ -9,6 +9,7 @@ import HomePage from "./pages/HomePage";
 import AuthPage from "./pages/AuthPage";
 import AskPage from "./pages/AskPage";
 import QuestionPage from "./pages/QuestionPage";
+import ScholarPage from "./pages/ScholarPage";
 import ExplorePage from "./pages/ExplorePage";
 import BookmarksPage from "./pages/BookmarksPage";
 import ProfilePage from "./pages/ProfilePage";
