@@ -709,6 +709,12 @@ const translations: Record<Language, TranslationKeys> = {
     writeComment: 'Dee okwu...',
     commentPosted: 'Etinyela okwu!',
     commentFailed: 'Enweghị ike itinye okwu',
+    micPermissionDenied: 'Agọghị nnweta maịkrọfọn',
+    cameraPermissionDenied: 'Agọghị nnweta kamẹra',
+    uploadFailed: 'Nbugo adaghị',
+    recordingSaved: 'Edekọla ndekọ!',
+    recording: 'Na-edeko...',
+    stopRecording: 'Kwụsị Ndekọ',
   },
 
   pcm: {
