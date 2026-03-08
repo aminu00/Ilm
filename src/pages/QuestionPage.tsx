@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, ArrowUp, Bookmark, CheckCircle2, Clock, Send, Mic, Video } from 'lucide-react';
+import { ArrowLeft, ArrowUp, Bookmark, CheckCircle2, Clock, Send, Mic, Video, Share2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Textarea } from '@/components/ui/textarea';
@@ -11,6 +11,8 @@ import { useUserRoles } from '@/hooks/useProfile';
 import { useToggleBookmark } from '@/hooks/useBookmarks';
 import { useAuth } from '@/contexts/AuthContext';
 import { useLanguage } from '@/contexts/LanguageContext';
+import ShareButton from '@/components/questions/ShareButton';
+import CommentSection from '@/components/questions/CommentSection';
 import { formatDistanceToNow } from 'date-fns';
 import { toast } from 'sonner';
 
@@ -72,14 +74,17 @@ export default function QuestionPage() {
             <ArrowLeft className="h-5 w-5" />
           </Button>
           <h1 className="text-sm font-medium">{t('question')}</h1>
-          <Button
-            variant="ghost"
-            size="icon"
-            className="rounded-full"
-            onClick={() => toggleBookmark.mutate(id!)}
-          >
-            <Bookmark className="h-5 w-5" />
-          </Button>
+          <div className="flex items-center gap-1">
+            <ShareButton questionId={id!} questionTitle={question?.title ?? ''} />
+            <Button
+              variant="ghost"
+              size="icon"
+              className="rounded-full"
+              onClick={() => toggleBookmark.mutate(id!)}
+            >
+              <Bookmark className="h-5 w-5" />
+            </Button>
+          </div>
         </div>
       </header>
 
@@ -173,6 +178,8 @@ export default function QuestionPage() {
                 <p className="text-xs text-muted-foreground">
                   {formatDistanceToNow(new Date(answer.created_at), { addSuffix: true })}
                 </p>
+
+                <CommentSection answerId={answer.id} />
               </div>
             ))
           )}

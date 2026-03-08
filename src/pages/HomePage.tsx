@@ -6,6 +6,7 @@ import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { Skeleton } from '@/components/ui/skeleton';
 import AppLayout from '@/components/layout/AppLayout';
 import QuestionCard from '@/components/questions/QuestionCard';
+import DailyReminder from '@/components/home/DailyReminder';
 import CategoryChip from '@/components/questions/CategoryChip';
 import { useQuestions } from '@/hooks/useQuestions';
 import { useCategories } from '@/hooks/useCategories';
@@ -61,6 +62,8 @@ export default function HomePage() {
           <ScrollBar orientation="horizontal" />
         </ScrollArea>
       </header>
+
+      <DailyReminder />
 
       <div className="px-4 py-3 space-y-3">
         {questionsLoading ? (

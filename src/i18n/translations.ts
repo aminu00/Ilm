@@ -127,6 +127,16 @@ type TranslationKeys = {
   removeScholarRole: string;
   confirmAction: string;
   dashboard: string;
+  // Share & Comments
+  linkCopied: string;
+  copyLink: string;
+  shareQuestion: string;
+  showComments: string;
+  hideComments: string;
+  noComments: string;
+  writeComment: string;
+  commentPosted: string;
+  commentFailed: string;
 };
 
 const translations: Record<Language, TranslationKeys> = {
@@ -227,6 +237,15 @@ const translations: Record<Language, TranslationKeys> = {
     removeScholarRole: 'Remove Scholar Role',
     confirmAction: 'Are you sure?',
     dashboard: 'Dashboard',
+    linkCopied: 'Link copied!',
+    copyLink: 'Copy Link',
+    shareQuestion: 'Share',
+    showComments: 'Comments',
+    hideComments: 'Hide comments',
+    noComments: 'No comments yet',
+    writeComment: 'Write a comment...',
+    commentPosted: 'Comment posted!',
+    commentFailed: 'Failed to post comment',
   },
 
   ar: {
@@ -326,6 +345,15 @@ const translations: Record<Language, TranslationKeys> = {
     removeScholarRole: 'إزالة دور العالم',
     confirmAction: 'هل أنت متأكد؟',
     dashboard: 'لوحة التحكم',
+    linkCopied: 'تم نسخ الرابط!',
+    copyLink: 'نسخ الرابط',
+    shareQuestion: 'مشاركة',
+    showComments: 'التعليقات',
+    hideComments: 'إخفاء التعليقات',
+    noComments: 'لا توجد تعليقات بعد',
+    writeComment: 'اكتب تعليقًا...',
+    commentPosted: 'تم نشر التعليق!',
+    commentFailed: 'فشل نشر التعليق',
   },
 
   yo: {
@@ -425,6 +453,15 @@ const translations: Record<Language, TranslationKeys> = {
     removeScholarRole: 'Yọ Ipò Ọ̀jọ̀gbọ́n',
     confirmAction: 'Ṣé o dá ọ lójú?',
     dashboard: 'Pánẹ́ẹ̀lì Ìṣàkóso',
+    linkCopied: 'A ti daakọ ìjápọ̀!',
+    copyLink: 'Daakọ Ìjápọ̀',
+    shareQuestion: 'Pín',
+    showComments: 'Àwọn àlàyé',
+    hideComments: 'Pa àwọn àlàyé mọ́',
+    noComments: 'Kò sí àlàyé',
+    writeComment: 'Kọ àlàyé kan...',
+    commentPosted: 'A ti fi àlàyé sílẹ̀!',
+    commentFailed: 'Kò le fi àlàyé sílẹ̀',
   },
 
   ha: {
@@ -524,6 +561,15 @@ const translations: Record<Language, TranslationKeys> = {
     removeScholarRole: 'Cire Matsayin Malami',
     confirmAction: 'Ka tabbata?',
     dashboard: 'Shafin Sarrafa',
+    linkCopied: 'An kwafi hanyar!',
+    copyLink: 'Kwafi Hanyar',
+    shareQuestion: 'Rabawa',
+    showComments: 'Sharhi',
+    hideComments: 'Ɓoye sharhi',
+    noComments: 'Babu sharhi tukuna',
+    writeComment: 'Rubuta sharhi...',
+    commentPosted: 'An buga sharhi!',
+    commentFailed: 'Ba a iya buga sharhi ba',
   },
 
   ig: {
@@ -623,6 +669,15 @@ const translations: Record<Language, TranslationKeys> = {
     removeScholarRole: 'Wepụ Ọrụ Onye Ọkà',
     confirmAction: 'Ị ji n\'aka?',
     dashboard: 'Dashịbọọdụ',
+    linkCopied: 'Edekọla njikọ!',
+    copyLink: 'Detuo Njikọ',
+    shareQuestion: 'Kekọrịta',
+    showComments: 'Okwu',
+    hideComments: 'Zoo okwu',
+    noComments: 'Enweghị okwu',
+    writeComment: 'Dee okwu...',
+    commentPosted: 'Etinyela okwu!',
+    commentFailed: 'Enweghị ike itinye okwu',
   },
 
   pcm: {
@@ -722,6 +777,15 @@ const translations: Record<Language, TranslationKeys> = {
     removeScholarRole: 'Remove Scholar Role',
     confirmAction: 'You sure?',
     dashboard: 'Dashboard',
+    linkCopied: 'Link don copy!',
+    copyLink: 'Copy Link',
+    shareQuestion: 'Share',
+    showComments: 'Comments',
+    hideComments: 'Hide comments',
+    noComments: 'No comment yet',
+    writeComment: 'Write comment...',
+    commentPosted: 'Comment don post!',
+    commentFailed: 'Comment no fit post',
   },
 };
 
