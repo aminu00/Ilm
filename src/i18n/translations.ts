@@ -253,6 +253,12 @@ const translations: Record<Language, TranslationKeys> = {
     writeComment: 'Write a comment...',
     commentPosted: 'Comment posted!',
     commentFailed: 'Failed to post comment',
+    micPermissionDenied: 'Microphone access denied',
+    cameraPermissionDenied: 'Camera access denied',
+    uploadFailed: 'Upload failed',
+    recordingSaved: 'Recording saved!',
+    recording: 'Recording...',
+    stopRecording: 'Stop Recording',
   },
 
   ar: {
