@@ -19,13 +19,13 @@ export interface Question {
     display_name: string;
     avatar_url: string | null;
     is_verified_scholar: boolean;
-  };
+  } | null;
   categories?: {
     name: string;
     name_ar: string | null;
     icon: string | null;
     color: string | null;
-  };
+  } | null;
 }
 
 export function useQuestions(categoryId?: string) {
@@ -36,7 +36,6 @@ export function useQuestions(categoryId?: string) {
         .from('questions')
         .select(`
           *,
-          profiles!questions_user_id_fkey(display_name, avatar_url, is_verified_scholar),
           categories(name, name_ar, icon, color)
         `)
         .order('created_at', { ascending: false });
@@ -47,7 +46,20 @@ export function useQuestions(categoryId?: string) {
 
       const { data, error } = await query;
       if (error) throw error;
-      return data as Question[];
+
+      // Fetch profiles for question authors
+      const userIds = [...new Set(data.map((q) => q.user_id))];
+      const { data: profiles } = await supabase
+        .from('profiles')
+        .select('user_id, display_name, avatar_url, is_verified_scholar')
+        .in('user_id', userIds);
+
+      const profileMap = new Map(profiles?.map((p) => [p.user_id, p]));
+
+      return data.map((q) => ({
+        ...q,
+        profiles: profileMap.get(q.user_id) || null,
+      })) as Question[];
     },
   });
 }
@@ -60,17 +72,19 @@ export function useQuestion(id: string) {
         .from('questions')
         .select(`
           *,
-          profiles!questions_user_id_fkey(display_name, avatar_url, is_verified_scholar),
           categories(name, name_ar, icon, color)
         `)
         .eq('id', id)
         .single();
       if (error) throw error;
 
-      // Increment view count
-      await supabase.rpc('increment_view_count' as never, { question_id: id } as never).catch(() => {});
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('user_id, display_name, avatar_url, is_verified_scholar')
+        .eq('user_id', data.user_id)
+        .single();
 
-      return data as Question;
+      return { ...data, profiles: profile } as Question;
     },
     enabled: !!id,
   });
@@ -103,14 +117,24 @@ export function useAnswers(questionId: string) {
     queryFn: async () => {
       const { data, error } = await supabase
         .from('answers')
-        .select(`
-          *,
-          profiles!answers_scholar_id_fkey(display_name, avatar_url, is_verified_scholar, scholar_title)
-        `)
+        .select('*')
         .eq('question_id', questionId)
         .order('created_at', { ascending: true });
       if (error) throw error;
-      return data;
+
+      // Fetch scholar profiles
+      const scholarIds = [...new Set(data.map((a) => a.scholar_id))];
+      const { data: profiles } = await supabase
+        .from('profiles')
+        .select('user_id, display_name, avatar_url, is_verified_scholar, scholar_title')
+        .in('user_id', scholarIds);
+
+      const profileMap = new Map(profiles?.map((p) => [p.user_id, p]));
+
+      return data.map((a) => ({
+        ...a,
+        profiles: profileMap.get(a.scholar_id) || null,
+      }));
     },
     enabled: !!questionId,
   });
