@@ -74,14 +74,17 @@ export default function QuestionPage() {
             <ArrowLeft className="h-5 w-5" />
           </Button>
           <h1 className="text-sm font-medium">{t('question')}</h1>
-          <Button
-            variant="ghost"
-            size="icon"
-            className="rounded-full"
-            onClick={() => toggleBookmark.mutate(id!)}
-          >
-            <Bookmark className="h-5 w-5" />
-          </Button>
+          <div className="flex items-center gap-1">
+            <ShareButton questionId={id!} questionTitle={question?.title ?? ''} />
+            <Button
+              variant="ghost"
+              size="icon"
+              className="rounded-full"
+              onClick={() => toggleBookmark.mutate(id!)}
+            >
+              <Bookmark className="h-5 w-5" />
+            </Button>
+          </div>
         </div>
       </header>
 
