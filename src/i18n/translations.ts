@@ -561,6 +561,15 @@ const translations: Record<Language, TranslationKeys> = {
     removeScholarRole: 'Cire Matsayin Malami',
     confirmAction: 'Ka tabbata?',
     dashboard: 'Shafin Sarrafa',
+    linkCopied: 'An kwafi hanyar!',
+    copyLink: 'Kwafi Hanyar',
+    shareQuestion: 'Rabawa',
+    showComments: 'Sharhi',
+    hideComments: 'Ɓoye sharhi',
+    noComments: 'Babu sharhi tukuna',
+    writeComment: 'Rubuta sharhi...',
+    commentPosted: 'An buga sharhi!',
+    commentFailed: 'Ba a iya buga sharhi ba',
   },
 
   ig: {
