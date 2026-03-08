@@ -6,6 +6,7 @@ import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { Skeleton } from '@/components/ui/skeleton';
 import AppLayout from '@/components/layout/AppLayout';
 import QuestionCard from '@/components/questions/QuestionCard';
+import DailyReminder from '@/components/home/DailyReminder';
 import CategoryChip from '@/components/questions/CategoryChip';
 import { useQuestions } from '@/hooks/useQuestions';
 import { useCategories } from '@/hooks/useCategories';
