@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, ArrowUp, Bookmark, CheckCircle2, Clock, Send, Mic, Video } from 'lucide-react';
+import { ArrowLeft, ArrowUp, Bookmark, CheckCircle2, Clock, Send, Mic, Video, Share2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Textarea } from '@/components/ui/textarea';
