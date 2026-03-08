@@ -137,6 +137,13 @@ type TranslationKeys = {
   writeComment: string;
   commentPosted: string;
   commentFailed: string;
+  // Media Recording
+  micPermissionDenied: string;
+  cameraPermissionDenied: string;
+  uploadFailed: string;
+  recordingSaved: string;
+  recording: string;
+  stopRecording: string;
 };
 
 const translations: Record<Language, TranslationKeys> = {
@@ -246,6 +253,12 @@ const translations: Record<Language, TranslationKeys> = {
     writeComment: 'Write a comment...',
     commentPosted: 'Comment posted!',
     commentFailed: 'Failed to post comment',
+    micPermissionDenied: 'Microphone access denied',
+    cameraPermissionDenied: 'Camera access denied',
+    uploadFailed: 'Upload failed',
+    recordingSaved: 'Recording saved!',
+    recording: 'Recording...',
+    stopRecording: 'Stop Recording',
   },
 
   ar: {
@@ -354,6 +367,12 @@ const translations: Record<Language, TranslationKeys> = {
     writeComment: 'اكتب تعليقًا...',
     commentPosted: 'تم نشر التعليق!',
     commentFailed: 'فشل نشر التعليق',
+    micPermissionDenied: 'تم رفض الوصول إلى الميكروفون',
+    cameraPermissionDenied: 'تم رفض الوصول إلى الكاميرا',
+    uploadFailed: 'فشل الرفع',
+    recordingSaved: 'تم حفظ التسجيل!',
+    recording: 'جاري التسجيل...',
+    stopRecording: 'إيقاف التسجيل',
   },
 
   yo: {
@@ -462,6 +481,12 @@ const translations: Record<Language, TranslationKeys> = {
     writeComment: 'Kọ àlàyé kan...',
     commentPosted: 'A ti fi àlàyé sílẹ̀!',
     commentFailed: 'Kò le fi àlàyé sílẹ̀',
+    micPermissionDenied: 'Kò gba àyè máíkì',
+    cameraPermissionDenied: 'Kò gba àyè kámẹ́rà',
+    uploadFailed: 'Gbígbé sókè kùnà',
+    recordingSaved: 'A ti fi ìgbàsílẹ̀ pamọ́!',
+    recording: 'Ń gbàsílẹ̀...',
+    stopRecording: 'Dá Ìgbàsílẹ̀ Dúró',
   },
 
   ha: {
@@ -570,6 +595,12 @@ const translations: Record<Language, TranslationKeys> = {
     writeComment: 'Rubuta sharhi...',
     commentPosted: 'An buga sharhi!',
     commentFailed: 'Ba a iya buga sharhi ba',
+    micPermissionDenied: 'An hana samun damar mai ɗaukar sauti',
+    cameraPermissionDenied: 'An hana samun damar kyamara',
+    uploadFailed: 'Ɗora ya kasa',
+    recordingSaved: 'An ajiye rikodin!',
+    recording: 'Ana rikodin...',
+    stopRecording: 'Dakatar da Rikodin',
   },
 
   ig: {
@@ -678,6 +709,12 @@ const translations: Record<Language, TranslationKeys> = {
     writeComment: 'Dee okwu...',
     commentPosted: 'Etinyela okwu!',
     commentFailed: 'Enweghị ike itinye okwu',
+    micPermissionDenied: 'Agọghị nnweta maịkrọfọn',
+    cameraPermissionDenied: 'Agọghị nnweta kamẹra',
+    uploadFailed: 'Nbugo adaghị',
+    recordingSaved: 'Edekọla ndekọ!',
+    recording: 'Na-edeko...',
+    stopRecording: 'Kwụsị Ndekọ',
   },
 
   pcm: {
@@ -786,6 +823,12 @@ const translations: Record<Language, TranslationKeys> = {
     writeComment: 'Write comment...',
     commentPosted: 'Comment don post!',
     commentFailed: 'Comment no fit post',
+    micPermissionDenied: 'Mic access no gree',
+    cameraPermissionDenied: 'Camera access no gree',
+    uploadFailed: 'Upload fail',
+    recordingSaved: 'Recording don save!',
+    recording: 'E dey record...',
+    stopRecording: 'Stop Recording',
   },
 };
 
