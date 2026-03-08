@@ -144,6 +144,15 @@ type TranslationKeys = {
   recordingSaved: string;
   recording: string;
   stopRecording: string;
+  // Scholar Profile & Explore
+  followers: string;
+  follow: string;
+  unfollow: string;
+  answerHistory: string;
+  trending: string;
+  mostUpvoted: string;
+  recent: string;
+  answeredTab: string;
 };
 
 const translations: Record<Language, TranslationKeys> = {
@@ -259,6 +268,14 @@ const translations: Record<Language, TranslationKeys> = {
     recordingSaved: 'Recording saved!',
     recording: 'Recording...',
     stopRecording: 'Stop Recording',
+    followers: 'Followers',
+    follow: 'Follow',
+    unfollow: 'Unfollow',
+    answerHistory: 'Answer History',
+    trending: 'Trending',
+    mostUpvoted: 'Most Upvoted',
+    recent: 'Recent',
+    answeredTab: 'Answered',
   },
 
   ar: {
@@ -373,6 +390,14 @@ const translations: Record<Language, TranslationKeys> = {
     recordingSaved: 'تم حفظ التسجيل!',
     recording: 'جاري التسجيل...',
     stopRecording: 'إيقاف التسجيل',
+    followers: 'المتابعون',
+    follow: 'متابعة',
+    unfollow: 'إلغاء المتابعة',
+    answerHistory: 'سجل الإجابات',
+    trending: 'الأكثر رواجًا',
+    mostUpvoted: 'الأكثر تصويتًا',
+    recent: 'الأحدث',
+    answeredTab: 'مُجاب',
   },
 
   yo: {
@@ -487,6 +512,14 @@ const translations: Record<Language, TranslationKeys> = {
     recordingSaved: 'A ti fi ìgbàsílẹ̀ pamọ́!',
     recording: 'Ń gbàsílẹ̀...',
     stopRecording: 'Dá Ìgbàsílẹ̀ Dúró',
+    followers: 'Àwọn olùtẹ̀lé',
+    follow: 'Tẹ̀lé',
+    unfollow: 'Dá Ìtẹ̀lé Dúró',
+    answerHistory: 'Ìtàn Ìdáhùn',
+    trending: 'Àwọn tó ń gbajúmọ̀',
+    mostUpvoted: 'Tí a bọ̀wọ̀ fún jùlọ',
+    recent: 'Tuntun',
+    answeredTab: 'Tí a dáhùn',
   },
 
   ha: {
@@ -601,6 +634,14 @@ const translations: Record<Language, TranslationKeys> = {
     recordingSaved: 'An ajiye rikodin!',
     recording: 'Ana rikodin...',
     stopRecording: 'Dakatar da Rikodin',
+    followers: 'Mabiya',
+    follow: 'Bi',
+    unfollow: 'Daina Bi',
+    answerHistory: 'Tarihin Amsoshi',
+    trending: 'Mafi Yawan Bincike',
+    mostUpvoted: 'Mafi Yawan Ƙuri\'u',
+    recent: 'Sababbi',
+    answeredTab: 'An Amsa',
   },
 
   ig: {
@@ -715,6 +756,14 @@ const translations: Record<Language, TranslationKeys> = {
     recordingSaved: 'Edekọla ndekọ!',
     recording: 'Na-edeko...',
     stopRecording: 'Kwụsị Ndekọ',
+    followers: 'Ndị na-eso',
+    follow: 'Soro',
+    unfollow: 'Kwụsị Ịso',
+    answerHistory: 'Akụkọ Azịza',
+    trending: 'Ndị na-ewu ewu',
+    mostUpvoted: 'Kacha ntụ aka',
+    recent: 'Ọhụrụ',
+    answeredTab: 'Azaala',
   },
 
   pcm: {
@@ -829,6 +878,14 @@ const translations: Record<Language, TranslationKeys> = {
     recordingSaved: 'Recording don save!',
     recording: 'E dey record...',
     stopRecording: 'Stop Recording',
+    followers: 'Followers',
+    follow: 'Follow',
+    unfollow: 'Unfollow',
+    answerHistory: 'Answer History',
+    trending: 'Trending',
+    mostUpvoted: 'Most Upvoted',
+    recent: 'Recent',
+    answeredTab: 'Answered',
   },
 };
 

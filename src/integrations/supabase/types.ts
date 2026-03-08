@@ -155,6 +155,27 @@ export type Database = {
           },
         ]
       }
+      follows: {
+        Row: {
+          created_at: string
+          follower_id: string
+          id: string
+          scholar_id: string
+        }
+        Insert: {
+          created_at?: string
+          follower_id: string
+          id?: string
+          scholar_id: string
+        }
+        Update: {
+          created_at?: string
+          follower_id?: string
+          id?: string
+          scholar_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null

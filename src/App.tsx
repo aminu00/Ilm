@@ -9,6 +9,7 @@ import HomePage from "./pages/HomePage";
 import AuthPage from "./pages/AuthPage";
 import AskPage from "./pages/AskPage";
 import QuestionPage from "./pages/QuestionPage";
+import ScholarPage from "./pages/ScholarPage";
 import ExplorePage from "./pages/ExplorePage";
 import BookmarksPage from "./pages/BookmarksPage";
 import ProfilePage from "./pages/ProfilePage";
@@ -46,6 +47,7 @@ const App = () => (
               <Route path="/" element={<ProtectedRoute><HomePage /></ProtectedRoute>} />
               <Route path="/ask" element={<ProtectedRoute><AskPage /></ProtectedRoute>} />
               <Route path="/question/:id" element={<ProtectedRoute><QuestionPage /></ProtectedRoute>} />
+              <Route path="/scholar/:userId" element={<ProtectedRoute><ScholarPage /></ProtectedRoute>} />
               <Route path="/explore" element={<ProtectedRoute><ExplorePage /></ProtectedRoute>} />
               <Route path="/bookmarks" element={<ProtectedRoute><BookmarksPage /></ProtectedRoute>} />
               <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
