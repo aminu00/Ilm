@@ -453,6 +453,15 @@ const translations: Record<Language, TranslationKeys> = {
     removeScholarRole: 'Yọ Ipò Ọ̀jọ̀gbọ́n',
     confirmAction: 'Ṣé o dá ọ lójú?',
     dashboard: 'Pánẹ́ẹ̀lì Ìṣàkóso',
+    linkCopied: 'A ti daakọ ìjápọ̀!',
+    copyLink: 'Daakọ Ìjápọ̀',
+    shareQuestion: 'Pín',
+    showComments: 'Àwọn àlàyé',
+    hideComments: 'Pa àwọn àlàyé mọ́',
+    noComments: 'Kò sí àlàyé',
+    writeComment: 'Kọ àlàyé kan...',
+    commentPosted: 'A ti fi àlàyé sílẹ̀!',
+    commentFailed: 'Kò le fi àlàyé sílẹ̀',
   },
 
   ha: {
