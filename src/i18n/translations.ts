@@ -512,6 +512,14 @@ const translations: Record<Language, TranslationKeys> = {
     recordingSaved: 'A ti fi ìgbàsílẹ̀ pamọ́!',
     recording: 'Ń gbàsílẹ̀...',
     stopRecording: 'Dá Ìgbàsílẹ̀ Dúró',
+    followers: 'Àwọn olùtẹ̀lé',
+    follow: 'Tẹ̀lé',
+    unfollow: 'Dá Ìtẹ̀lé Dúró',
+    answerHistory: 'Ìtàn Ìdáhùn',
+    trending: 'Àwọn tó ń gbajúmọ̀',
+    mostUpvoted: 'Tí a bọ̀wọ̀ fún jùlọ',
+    recent: 'Tuntun',
+    answeredTab: 'Tí a dáhùn',
   },
 
   ha: {
