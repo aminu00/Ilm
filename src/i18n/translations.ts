@@ -137,6 +137,13 @@ type TranslationKeys = {
   writeComment: string;
   commentPosted: string;
   commentFailed: string;
+  // Media Recording
+  micPermissionDenied: string;
+  cameraPermissionDenied: string;
+  uploadFailed: string;
+  recordingSaved: string;
+  recording: string;
+  stopRecording: string;
 };
 
 const translations: Record<Language, TranslationKeys> = {
