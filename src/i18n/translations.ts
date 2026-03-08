@@ -345,6 +345,15 @@ const translations: Record<Language, TranslationKeys> = {
     removeScholarRole: 'إزالة دور العالم',
     confirmAction: 'هل أنت متأكد؟',
     dashboard: 'لوحة التحكم',
+    linkCopied: 'تم نسخ الرابط!',
+    copyLink: 'نسخ الرابط',
+    shareQuestion: 'مشاركة',
+    showComments: 'التعليقات',
+    hideComments: 'إخفاء التعليقات',
+    noComments: 'لا توجد تعليقات بعد',
+    writeComment: 'اكتب تعليقًا...',
+    commentPosted: 'تم نشر التعليق!',
+    commentFailed: 'فشل نشر التعليق',
   },
 
   yo: {
