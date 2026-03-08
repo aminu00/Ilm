@@ -268,6 +268,14 @@ const translations: Record<Language, TranslationKeys> = {
     recordingSaved: 'Recording saved!',
     recording: 'Recording...',
     stopRecording: 'Stop Recording',
+    followers: 'Followers',
+    follow: 'Follow',
+    unfollow: 'Unfollow',
+    answerHistory: 'Answer History',
+    trending: 'Trending',
+    mostUpvoted: 'Most Upvoted',
+    recent: 'Recent',
+    answeredTab: 'Answered',
   },
 
   ar: {
