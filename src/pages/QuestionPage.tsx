@@ -158,11 +158,14 @@ export default function QuestionPage() {
           ) : (
             answers?.map((answer: any) => (
               <div key={answer.id} className="p-4 bg-card rounded-xl border border-primary/20 space-y-3">
-                <div className="flex items-center gap-2">
+                <button
+                  className="flex items-center gap-2 hover:opacity-80 transition-opacity"
+                  onClick={() => navigate(`/scholar/${answer.scholar_id}`)}
+                >
                   <div className="h-9 w-9 rounded-full bg-primary/10 flex items-center justify-center text-primary font-semibold">
                     {answer.profiles?.display_name?.[0] ?? 'S'}
                   </div>
-                  <div>
+                  <div className="text-left">
                     <div className="flex items-center gap-1.5">
                       <span className="text-sm font-medium">{answer.profiles?.display_name ?? 'Scholar'}</span>
                       {answer.profiles?.is_verified_scholar && (
@@ -173,6 +176,7 @@ export default function QuestionPage() {
                       <p className="text-xs text-muted-foreground">{answer.profiles.scholar_title}</p>
                     )}
                   </div>
+                </button>
                   <Badge className="ml-auto bg-primary/10 text-primary border-0 text-xs">{t('scholars')}</Badge>
                 </div>
 
