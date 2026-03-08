@@ -237,6 +237,15 @@ const translations: Record<Language, TranslationKeys> = {
     removeScholarRole: 'Remove Scholar Role',
     confirmAction: 'Are you sure?',
     dashboard: 'Dashboard',
+    linkCopied: 'Link copied!',
+    copyLink: 'Copy Link',
+    shareQuestion: 'Share',
+    showComments: 'Comments',
+    hideComments: 'Hide comments',
+    noComments: 'No comments yet',
+    writeComment: 'Write a comment...',
+    commentPosted: 'Comment posted!',
+    commentFailed: 'Failed to post comment',
   },
 
   ar: {
