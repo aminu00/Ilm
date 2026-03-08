@@ -144,6 +144,15 @@ type TranslationKeys = {
   recordingSaved: string;
   recording: string;
   stopRecording: string;
+  // Scholar Profile & Explore
+  followers: string;
+  follow: string;
+  unfollow: string;
+  answerHistory: string;
+  trending: string;
+  mostUpvoted: string;
+  recent: string;
+  answeredTab: string;
 };
 
 const translations: Record<Language, TranslationKeys> = {
