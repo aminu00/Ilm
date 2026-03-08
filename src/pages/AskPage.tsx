@@ -10,6 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import AppLayout from '@/components/layout/AppLayout';
 import { useCategories } from '@/hooks/useCategories';
 import { useCreateQuestion } from '@/hooks/useQuestions';
+import { useLanguage } from '@/contexts/LanguageContext';
 import { toast } from 'sonner';
 
 export default function AskPage() {
@@ -19,6 +20,7 @@ export default function AskPage() {
   const [isAnonymous, setIsAnonymous] = useState(false);
   const { data: categories } = useCategories();
   const createQuestion = useCreateQuestion();
+  const { t } = useLanguage();
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -49,16 +51,16 @@ export default function AskPage() {
           <Button variant="ghost" size="icon" className="rounded-full" onClick={() => navigate(-1)}>
             <ArrowLeft className="h-5 w-5" />
           </Button>
-          <h1 className="text-lg font-semibold">Ask a Question</h1>
+          <h1 className="text-lg font-semibold">{t('askQuestion')}</h1>
         </div>
       </header>
 
       <form onSubmit={handleSubmit} className="px-4 py-4 space-y-5">
         <div className="space-y-2">
-          <Label htmlFor="category">Category</Label>
+          <Label htmlFor="category">{t('category')}</Label>
           <Select value={categoryId} onValueChange={setCategoryId}>
             <SelectTrigger className="rounded-xl h-12">
-              <SelectValue placeholder="Select a category" />
+              <SelectValue placeholder={t('selectCategory')} />
             </SelectTrigger>
             <SelectContent>
               {categories?.map((cat) => (
@@ -71,10 +73,10 @@ export default function AskPage() {
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="title">Title</Label>
+          <Label htmlFor="title">{t('title')}</Label>
           <Input
             id="title"
-            placeholder="What's your question?"
+            placeholder={t('whatsYourQuestion')}
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             className="rounded-xl h-12"
@@ -85,10 +87,10 @@ export default function AskPage() {
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="body">Details</Label>
+          <Label htmlFor="body">{t('details')}</Label>
           <Textarea
             id="body"
-            placeholder="Explain your question in detail..."
+            placeholder={t('explainQuestion')}
             value={body}
             onChange={(e) => setBody(e.target.value)}
             className="rounded-xl min-h-[160px] resize-none"
@@ -100,8 +102,8 @@ export default function AskPage() {
 
         <div className="flex items-center justify-between p-4 bg-card rounded-xl border border-border">
           <div>
-            <p className="text-sm font-medium">Ask anonymously</p>
-            <p className="text-xs text-muted-foreground">Your name won't be shown</p>
+            <p className="text-sm font-medium">{t('askAnonymously')}</p>
+            <p className="text-xs text-muted-foreground">{t('nameNotShown')}</p>
           </div>
           <Switch checked={isAnonymous} onCheckedChange={setIsAnonymous} />
         </div>
@@ -112,7 +114,7 @@ export default function AskPage() {
           disabled={createQuestion.isPending || !title.trim() || !body.trim()}
         >
           <Send className="h-4 w-4 mr-2" />
-          {createQuestion.isPending ? 'Posting...' : 'Post Question'}
+          {createQuestion.isPending ? t('posting') : t('postQuestion')}
         </Button>
       </form>
     </AppLayout>

@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useAuth } from '@/contexts/AuthContext';
+import { useLanguage } from '@/contexts/LanguageContext';
 import { toast } from 'sonner';
 import { Eye, EyeOff, Mail } from 'lucide-react';
 
@@ -26,6 +27,7 @@ export default function AuthPage() {
   const [loading, setLoading] = useState(false);
   const [showForgot, setShowForgot] = useState(false);
   const { signIn, signUp, signInWithGoogle, resetPassword } = useAuth();
+  const { t } = useLanguage();
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -36,7 +38,7 @@ export default function AuthPage() {
       if (showForgot) {
         const { error } = await resetPassword(email);
         if (error) throw error;
-        toast.success('Password reset email sent! Check your inbox.');
+        toast.success(t('resetSent'));
         setShowForgot(false);
         setLoading(false);
         return;
@@ -52,7 +54,7 @@ export default function AuthPage() {
       } else {
         const { error } = await signUp(parsed.email, parsed.password, (parsed as z.infer<typeof signupSchema>).displayName);
         if (error) throw error;
-        toast.success('Account created! Check your email to confirm.');
+        toast.success(t('accountCreated'));
       }
     } catch (err: unknown) {
       const message = err instanceof z.ZodError
@@ -72,15 +74,13 @@ export default function AuthPage() {
   return (
     <div className="min-h-screen bg-background flex flex-col islamic-pattern">
       <div className="flex-1 flex flex-col items-center justify-center px-6 py-12">
-        {/* Logo */}
         <div className="text-center mb-10">
-          <h1 className="text-5xl font-display font-bold text-primary mb-1">عِلم</h1>
+          <h1 className="text-5xl font-display font-bold text-primary mb-1">{t('appName')}</h1>
           <p className="text-lg text-muted-foreground font-display">Ilm</p>
-          <p className="text-sm text-muted-foreground mt-1">Seek Knowledge from the Scholars</p>
+          <p className="text-sm text-muted-foreground mt-1">{t('seekKnowledge')}</p>
         </div>
 
         <div className="w-full max-w-sm space-y-6">
-          {/* Google Sign In */}
           <Button
             variant="outline"
             className="w-full h-12 rounded-xl text-sm font-medium"
@@ -92,7 +92,7 @@ export default function AuthPage() {
               <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05" />
               <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335" />
             </svg>
-            Continue with Google
+            {t('continueWithGoogle')}
           </Button>
 
           <div className="relative">
@@ -100,7 +100,7 @@ export default function AuthPage() {
               <span className="w-full border-t border-border" />
             </div>
             <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-background px-2 text-muted-foreground">or</span>
+              <span className="bg-background px-2 text-muted-foreground">{t('or')}</span>
             </div>
           </div>
 
@@ -108,7 +108,7 @@ export default function AuthPage() {
             {showForgot ? (
               <>
                 <div className="space-y-2">
-                  <Label htmlFor="email">Email</Label>
+                  <Label htmlFor="email">{t('email')}</Label>
                   <div className="relative">
                     <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                     <Input
@@ -123,21 +123,21 @@ export default function AuthPage() {
                   </div>
                 </div>
                 <Button type="submit" className="w-full h-12 rounded-xl" disabled={loading}>
-                  {loading ? 'Sending...' : 'Send Reset Link'}
+                  {loading ? t('loading') : t('sendResetLink')}
                 </Button>
                 <button
                   type="button"
                   onClick={() => setShowForgot(false)}
                   className="text-sm text-primary hover:underline w-full text-center"
                 >
-                  Back to login
+                  {t('backToLogin')}
                 </button>
               </>
             ) : (
               <>
                 {!isLogin && (
                   <div className="space-y-2">
-                    <Label htmlFor="name">Display Name</Label>
+                    <Label htmlFor="name">{t('displayName')}</Label>
                     <Input
                       id="name"
                       placeholder="Your name"
@@ -150,7 +150,7 @@ export default function AuthPage() {
                 )}
 
                 <div className="space-y-2">
-                  <Label htmlFor="email">Email</Label>
+                  <Label htmlFor="email">{t('email')}</Label>
                   <div className="relative">
                     <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                     <Input
@@ -166,7 +166,7 @@ export default function AuthPage() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="password">Password</Label>
+                  <Label htmlFor="password">{t('password')}</Label>
                   <div className="relative">
                     <Input
                       id="password"
@@ -193,12 +193,12 @@ export default function AuthPage() {
                     onClick={() => setShowForgot(true)}
                     className="text-sm text-primary hover:underline"
                   >
-                    Forgot password?
+                    {t('forgotPassword')}
                   </button>
                 )}
 
                 <Button type="submit" className="w-full h-12 rounded-xl" disabled={loading}>
-                  {loading ? 'Please wait...' : isLogin ? 'Sign In' : 'Create Account'}
+                  {loading ? t('loading') : isLogin ? t('signIn') : t('signUp')}
                 </Button>
               </>
             )}
@@ -206,12 +206,12 @@ export default function AuthPage() {
 
           {!showForgot && (
             <p className="text-center text-sm text-muted-foreground">
-              {isLogin ? "Don't have an account?" : 'Already have an account?'}{' '}
+              {isLogin ? t('noAccount') : t('haveAccount')}{' '}
               <button
                 onClick={() => setIsLogin(!isLogin)}
                 className="text-primary font-medium hover:underline"
               >
-                {isLogin ? 'Sign up' : 'Sign in'}
+                {isLogin ? t('signUp') : t('signIn')}
               </button>
             </p>
           )}

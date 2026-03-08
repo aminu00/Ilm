@@ -10,14 +10,15 @@ import { useQuestion, useAnswers, useCreateAnswer } from '@/hooks/useQuestions';
 import { useUserRoles } from '@/hooks/useProfile';
 import { useToggleBookmark } from '@/hooks/useBookmarks';
 import { useAuth } from '@/contexts/AuthContext';
+import { useLanguage } from '@/contexts/LanguageContext';
 import { formatDistanceToNow } from 'date-fns';
 import { toast } from 'sonner';
-import { cn } from '@/lib/utils';
 
 export default function QuestionPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { user } = useAuth();
+  const { t } = useLanguage();
   const { data: question, isLoading } = useQuestion(id!);
   const { data: answers, isLoading: answersLoading } = useAnswers(id!);
   const { data: roles } = useUserRoles();
@@ -70,7 +71,7 @@ export default function QuestionPage() {
           <Button variant="ghost" size="icon" className="rounded-full" onClick={() => navigate(-1)}>
             <ArrowLeft className="h-5 w-5" />
           </Button>
-          <h1 className="text-sm font-medium">Question</h1>
+          <h1 className="text-sm font-medium">{t('question')}</h1>
           <Button
             variant="ghost"
             size="icon"
@@ -83,7 +84,6 @@ export default function QuestionPage() {
       </header>
 
       <div className="px-4 py-4 space-y-4">
-        {/* Question */}
         <div className="space-y-3">
           <div className="flex items-center gap-2">
             <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center text-primary font-semibold">
@@ -91,7 +91,7 @@ export default function QuestionPage() {
             </div>
             <div>
               <p className="text-sm font-medium">
-                {question.is_anonymous ? 'Anonymous' : (profile?.display_name ?? 'User')}
+                {question.is_anonymous ? t('anonymous') : (profile?.display_name ?? 'User')}
               </p>
               <p className="text-xs text-muted-foreground flex items-center gap-1">
                 <Clock className="h-3 w-3" />
@@ -110,22 +110,21 @@ export default function QuestionPage() {
 
           <div className="flex items-center gap-4 text-sm text-muted-foreground pt-2 border-t border-border">
             <span className="flex items-center gap-1">
-              <ArrowUp className="h-4 w-4" /> {question.upvote_count} upvotes
+              <ArrowUp className="h-4 w-4" /> {question.upvote_count} {t('upvotes')}
             </span>
-            <span>{question.view_count} views</span>
+            <span>{question.view_count} {t('views')}</span>
             {question.status === 'answered' && (
               <Badge className="bg-primary/10 text-primary border-0 text-xs ml-auto">
                 <CheckCircle2 className="h-3 w-3 mr-1" />
-                Answered
+                {t('answered')}
               </Badge>
             )}
           </div>
         </div>
 
-        {/* Answers */}
         <div className="space-y-3">
           <h3 className="font-semibold text-lg">
-            Answers ({answers?.length ?? 0})
+            {t('answers')} ({answers?.length ?? 0})
           </h3>
 
           {answersLoading ? (
@@ -134,8 +133,8 @@ export default function QuestionPage() {
             ))
           ) : answers?.length === 0 ? (
             <div className="text-center py-8 bg-card rounded-xl border border-border">
-              <p className="text-muted-foreground text-sm">No answers yet</p>
-              <p className="text-xs text-muted-foreground mt-1">A scholar will answer this soon, In shaa Allah</p>
+              <p className="text-muted-foreground text-sm">{t('noAnswersYet')}</p>
+              <p className="text-xs text-muted-foreground mt-1">{t('scholarWillAnswer')}</p>
             </div>
           ) : (
             answers?.map((answer: any) => (
@@ -155,7 +154,7 @@ export default function QuestionPage() {
                       <p className="text-xs text-muted-foreground">{answer.profiles.scholar_title}</p>
                     )}
                   </div>
-                  <Badge className="ml-auto bg-scholar/10 text-scholar border-0 text-xs">Scholar</Badge>
+                  <Badge className="ml-auto bg-scholar/10 text-scholar border-0 text-xs">{t('scholars')}</Badge>
                 </div>
 
                 <p className="text-sm leading-relaxed whitespace-pre-wrap">{answer.body}</p>
@@ -179,12 +178,11 @@ export default function QuestionPage() {
           )}
         </div>
 
-        {/* Scholar answer input */}
         {isScholar && user && (
           <div className="space-y-3 p-4 bg-card rounded-xl border border-primary/30">
-            <p className="text-sm font-medium text-primary">Respond as Scholar</p>
+            <p className="text-sm font-medium text-primary">{t('respondAsScholar')}</p>
             <Textarea
-              placeholder="Write your answer..."
+              placeholder={t('writeYourAnswer')}
               value={answerBody}
               onChange={(e) => setAnswerBody(e.target.value)}
               className="rounded-xl min-h-[120px] resize-none"
@@ -203,7 +201,7 @@ export default function QuestionPage() {
                 disabled={createAnswer.isPending || !answerBody.trim()}
               >
                 <Send className="h-4 w-4 mr-2" />
-                {createAnswer.isPending ? 'Posting...' : 'Post Answer'}
+                {createAnswer.isPending ? t('posting') : t('postAnswer')}
               </Button>
             </div>
           </div>

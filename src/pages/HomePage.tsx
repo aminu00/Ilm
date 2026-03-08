@@ -9,23 +9,22 @@ import QuestionCard from '@/components/questions/QuestionCard';
 import CategoryChip from '@/components/questions/CategoryChip';
 import { useQuestions } from '@/hooks/useQuestions';
 import { useCategories } from '@/hooks/useCategories';
-import { useAuth } from '@/contexts/AuthContext';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function HomePage() {
   const [selectedCategory, setSelectedCategory] = useState<string | undefined>();
   const { data: questions, isLoading: questionsLoading } = useQuestions(selectedCategory);
   const { data: categories, isLoading: categoriesLoading } = useCategories();
-  const { user } = useAuth();
+  const { t } = useLanguage();
   const navigate = useNavigate();
 
   return (
     <AppLayout>
-      {/* Header */}
       <header className="sticky top-0 z-40 bg-background/95 backdrop-blur-lg border-b border-border safe-top">
         <div className="flex items-center justify-between px-4 py-3">
           <div>
-            <h1 className="text-2xl font-display font-bold text-primary">عِلم</h1>
-            <p className="text-xs text-muted-foreground -mt-0.5">Ilm — Seek Knowledge</p>
+            <h1 className="text-2xl font-display font-bold text-primary">{t('appName')}</h1>
+            <p className="text-xs text-muted-foreground -mt-0.5">{t('appTagline')}</p>
           </div>
           <div className="flex items-center gap-2">
             <Button variant="ghost" size="icon" className="rounded-full">
@@ -34,7 +33,6 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* Category filter */}
         <ScrollArea className="px-4 pb-3">
           <div className="flex gap-2">
             <button
@@ -45,7 +43,7 @@ export default function HomePage() {
                   : 'bg-card text-foreground border-border hover:border-primary/40'
               }`}
             >
-              All
+              {t('all')}
             </button>
             {categoriesLoading
               ? Array.from({ length: 5 }).map((_, i) => (
@@ -64,7 +62,6 @@ export default function HomePage() {
         </ScrollArea>
       </header>
 
-      {/* Questions feed */}
       <div className="px-4 py-3 space-y-3">
         {questionsLoading ? (
           Array.from({ length: 4 }).map((_, i) => (
@@ -84,10 +81,10 @@ export default function HomePage() {
             <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
               <PlusCircle className="h-7 w-7 text-primary" />
             </div>
-            <h3 className="font-semibold text-lg mb-1">No questions yet</h3>
-            <p className="text-sm text-muted-foreground mb-4">Be the first to ask a question</p>
+            <h3 className="font-semibold text-lg mb-1">{t('noQuestionsYet')}</h3>
+            <p className="text-sm text-muted-foreground mb-4">{t('beFirstToAsk')}</p>
             <Button onClick={() => navigate('/ask')} className="rounded-full">
-              Ask a Question
+              {t('askAQuestion')}
             </Button>
           </div>
         ) : (

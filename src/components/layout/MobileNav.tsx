@@ -1,18 +1,25 @@
-import { Home, Search, PlusCircle, Bookmark, User } from 'lucide-react';
+import { Home, Search, PlusCircle, Bookmark, User, Shield } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { cn } from '@/lib/utils';
-
-const navItems = [
-  { icon: Home, label: 'Home', path: '/' },
-  { icon: Search, label: 'Explore', path: '/explore' },
-  { icon: PlusCircle, label: 'Ask', path: '/ask' },
-  { icon: Bookmark, label: 'Saved', path: '/bookmarks' },
-  { icon: User, label: 'Profile', path: '/profile' },
-];
+import { useUserRoles } from '@/hooks/useProfile';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function MobileNav() {
   const location = useLocation();
   const navigate = useNavigate();
+  const { data: roles } = useUserRoles();
+  const { t } = useLanguage();
+  const isAdmin = roles?.includes('admin');
+
+  const navItems = [
+    { icon: Home, label: t('home'), path: '/' },
+    { icon: Search, label: t('explore'), path: '/explore' },
+    { icon: PlusCircle, label: t('ask'), path: '/ask' },
+    { icon: Bookmark, label: t('saved'), path: '/bookmarks' },
+    ...(isAdmin
+      ? [{ icon: Shield, label: t('admin'), path: '/admin' }]
+      : [{ icon: User, label: t('profile'), path: '/profile' }]),
+  ];
 
   return (
     <nav className="fixed bottom-0 left-0 right-0 z-50 border-t border-border bg-card/95 backdrop-blur-lg safe-bottom">
