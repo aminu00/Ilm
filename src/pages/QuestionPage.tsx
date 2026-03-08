@@ -178,6 +178,8 @@ export default function QuestionPage() {
                 <p className="text-xs text-muted-foreground">
                   {formatDistanceToNow(new Date(answer.created_at), { addSuffix: true })}
                 </p>
+
+                <CommentSection answerId={answer.id} />
               </div>
             ))
           )}
