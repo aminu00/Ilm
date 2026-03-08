@@ -634,6 +634,14 @@ const translations: Record<Language, TranslationKeys> = {
     recordingSaved: 'An ajiye rikodin!',
     recording: 'Ana rikodin...',
     stopRecording: 'Dakatar da Rikodin',
+    followers: 'Mabiya',
+    follow: 'Bi',
+    unfollow: 'Daina Bi',
+    answerHistory: 'Tarihin Amsoshi',
+    trending: 'Mafi Yawan Bincike',
+    mostUpvoted: 'Mafi Yawan Ƙuri\'u',
+    recent: 'Sababbi',
+    answeredTab: 'An Amsa',
   },
 
   ig: {
