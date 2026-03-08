@@ -63,6 +63,8 @@ export default function HomePage() {
         </ScrollArea>
       </header>
 
+      <DailyReminder />
+
       <div className="px-4 py-3 space-y-3">
         {questionsLoading ? (
           Array.from({ length: 4 }).map((_, i) => (
