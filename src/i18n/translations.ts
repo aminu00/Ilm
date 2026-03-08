@@ -481,6 +481,12 @@ const translations: Record<Language, TranslationKeys> = {
     writeComment: 'Kọ àlàyé kan...',
     commentPosted: 'A ti fi àlàyé sílẹ̀!',
     commentFailed: 'Kò le fi àlàyé sílẹ̀',
+    micPermissionDenied: 'Kò gba àyè máíkì',
+    cameraPermissionDenied: 'Kò gba àyè kámẹ́rà',
+    uploadFailed: 'Gbígbé sókè kùnà',
+    recordingSaved: 'A ti fi ìgbàsílẹ̀ pamọ́!',
+    recording: 'Ń gbàsílẹ̀...',
+    stopRecording: 'Dá Ìgbàsílẹ̀ Dúró',
   },
 
   ha: {
