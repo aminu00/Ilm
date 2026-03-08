@@ -595,6 +595,12 @@ const translations: Record<Language, TranslationKeys> = {
     writeComment: 'Rubuta sharhi...',
     commentPosted: 'An buga sharhi!',
     commentFailed: 'Ba a iya buga sharhi ba',
+    micPermissionDenied: 'An hana samun damar mai ɗaukar sauti',
+    cameraPermissionDenied: 'An hana samun damar kyamara',
+    uploadFailed: 'Ɗora ya kasa',
+    recordingSaved: 'An ajiye rikodin!',
+    recording: 'Ana rikodin...',
+    stopRecording: 'Dakatar da Rikodin',
   },
 
   ig: {
