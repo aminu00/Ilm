@@ -777,6 +777,15 @@ const translations: Record<Language, TranslationKeys> = {
     removeScholarRole: 'Remove Scholar Role',
     confirmAction: 'You sure?',
     dashboard: 'Dashboard',
+    linkCopied: 'Link don copy!',
+    copyLink: 'Copy Link',
+    shareQuestion: 'Share',
+    showComments: 'Comments',
+    hideComments: 'Hide comments',
+    noComments: 'No comment yet',
+    writeComment: 'Write comment...',
+    commentPosted: 'Comment don post!',
+    commentFailed: 'Comment no fit post',
   },
 };
 
