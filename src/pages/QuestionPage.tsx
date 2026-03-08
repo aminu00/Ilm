@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, ArrowUp, Bookmark, CheckCircle2, Clock, Send, Mic, Video, Share2 } from 'lucide-react';
+import { ArrowLeft, ArrowUp, Bookmark, CheckCircle2, Clock, Send } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Textarea } from '@/components/ui/textarea';
@@ -13,6 +13,8 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useLanguage } from '@/contexts/LanguageContext';
 import ShareButton from '@/components/questions/ShareButton';
 import CommentSection from '@/components/questions/CommentSection';
+import AudioRecorder from '@/components/media/AudioRecorder';
+import VideoRecorder from '@/components/media/VideoRecorder';
 import { formatDistanceToNow } from 'date-fns';
 import { toast } from 'sonner';
 
@@ -27,14 +29,23 @@ export default function QuestionPage() {
   const createAnswer = useCreateAnswer();
   const toggleBookmark = useToggleBookmark();
   const [answerBody, setAnswerBody] = useState('');
+  const [audioUrl, setAudioUrl] = useState<string | null>(null);
+  const [videoUrl, setVideoUrl] = useState<string | null>(null);
 
   const isScholar = roles?.includes('scholar') || roles?.includes('admin');
 
   const handleSubmitAnswer = async () => {
-    if (!answerBody.trim()) return;
+    if (!answerBody.trim() && !audioUrl && !videoUrl) return;
     try {
-      await createAnswer.mutateAsync({ question_id: id!, body: answerBody.trim() });
+      await createAnswer.mutateAsync({
+        question_id: id!,
+        body: answerBody.trim(),
+        audio_url: audioUrl ?? undefined,
+        video_url: videoUrl ?? undefined,
+      });
       setAnswerBody('');
+      setAudioUrl(null);
+      setVideoUrl(null);
       toast.success('Answer posted!');
     } catch {
       toast.error('Failed to post answer. Only scholars can answer.');
@@ -65,6 +76,7 @@ export default function QuestionPage() {
 
   const profile = question.profiles;
   const category = question.categories;
+  const hasMedia = !!audioUrl || !!videoUrl;
 
   return (
     <AppLayout>
@@ -89,6 +101,7 @@ export default function QuestionPage() {
       </header>
 
       <div className="px-4 py-4 space-y-4">
+        {/* Question Details */}
         <div className="space-y-3">
           <div className="flex items-center gap-2">
             <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center text-primary font-semibold">
@@ -127,6 +140,7 @@ export default function QuestionPage() {
           </div>
         </div>
 
+        {/* Answers */}
         <div className="space-y-3">
           <h3 className="font-semibold text-lg">
             {t('answers')} ({answers?.length ?? 0})
@@ -145,24 +159,26 @@ export default function QuestionPage() {
             answers?.map((answer: any) => (
               <div key={answer.id} className="p-4 bg-card rounded-xl border border-primary/20 space-y-3">
                 <div className="flex items-center gap-2">
-                  <div className="h-9 w-9 rounded-full bg-scholar/10 flex items-center justify-center text-scholar font-semibold">
+                  <div className="h-9 w-9 rounded-full bg-primary/10 flex items-center justify-center text-primary font-semibold">
                     {answer.profiles?.display_name?.[0] ?? 'S'}
                   </div>
                   <div>
                     <div className="flex items-center gap-1.5">
                       <span className="text-sm font-medium">{answer.profiles?.display_name ?? 'Scholar'}</span>
                       {answer.profiles?.is_verified_scholar && (
-                        <CheckCircle2 className="h-4 w-4 text-scholar" />
+                        <CheckCircle2 className="h-4 w-4 text-primary" />
                       )}
                     </div>
                     {answer.profiles?.scholar_title && (
                       <p className="text-xs text-muted-foreground">{answer.profiles.scholar_title}</p>
                     )}
                   </div>
-                  <Badge className="ml-auto bg-scholar/10 text-scholar border-0 text-xs">{t('scholars')}</Badge>
+                  <Badge className="ml-auto bg-primary/10 text-primary border-0 text-xs">{t('scholars')}</Badge>
                 </div>
 
-                <p className="text-sm leading-relaxed whitespace-pre-wrap">{answer.body}</p>
+                {answer.body && (
+                  <p className="text-sm leading-relaxed whitespace-pre-wrap">{answer.body}</p>
+                )}
 
                 {answer.audio_url && (
                   <audio controls className="w-full" src={answer.audio_url}>
@@ -185,6 +201,7 @@ export default function QuestionPage() {
           )}
         </div>
 
+        {/* Scholar Response Form */}
         {isScholar && user && (
           <div className="space-y-3 p-4 bg-card rounded-xl border border-primary/30">
             <p className="text-sm font-medium text-primary">{t('respondAsScholar')}</p>
@@ -195,17 +212,44 @@ export default function QuestionPage() {
               className="rounded-xl min-h-[120px] resize-none"
               maxLength={5000}
             />
+
+            {/* Audio Recording */}
+            {audioUrl && (
+              <AudioRecorder
+                audioUrl={audioUrl}
+                onRecorded={setAudioUrl}
+                onClear={() => setAudioUrl(null)}
+              />
+            )}
+
+            {/* Video Recording */}
+            {videoUrl && (
+              <VideoRecorder
+                videoUrl={videoUrl}
+                onRecorded={setVideoUrl}
+                onClear={() => setVideoUrl(null)}
+              />
+            )}
+
             <div className="flex items-center gap-2">
-              <Button variant="outline" size="icon" className="rounded-full" disabled>
-                <Mic className="h-4 w-4" />
-              </Button>
-              <Button variant="outline" size="icon" className="rounded-full" disabled>
-                <Video className="h-4 w-4" />
-              </Button>
+              {!audioUrl && (
+                <AudioRecorder
+                  audioUrl={null}
+                  onRecorded={setAudioUrl}
+                  onClear={() => setAudioUrl(null)}
+                />
+              )}
+              {!videoUrl && (
+                <VideoRecorder
+                  videoUrl={null}
+                  onRecorded={setVideoUrl}
+                  onClear={() => setVideoUrl(null)}
+                />
+              )}
               <Button
                 className="ml-auto rounded-full"
                 onClick={handleSubmitAnswer}
-                disabled={createAnswer.isPending || !answerBody.trim()}
+                disabled={createAnswer.isPending || (!answerBody.trim() && !hasMedia)}
               >
                 <Send className="h-4 w-4 mr-2" />
                 {createAnswer.isPending ? t('posting') : t('postAnswer')}
