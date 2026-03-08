@@ -390,6 +390,14 @@ const translations: Record<Language, TranslationKeys> = {
     recordingSaved: 'تم حفظ التسجيل!',
     recording: 'جاري التسجيل...',
     stopRecording: 'إيقاف التسجيل',
+    followers: 'المتابعون',
+    follow: 'متابعة',
+    unfollow: 'إلغاء المتابعة',
+    answerHistory: 'سجل الإجابات',
+    trending: 'الأكثر رواجًا',
+    mostUpvoted: 'الأكثر تصويتًا',
+    recent: 'الأحدث',
+    answeredTab: 'مُجاب',
   },
 
   yo: {
