@@ -14,16 +14,272 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      answers: {
+        Row: {
+          audio_url: string | null
+          body: string | null
+          created_at: string
+          id: string
+          is_accepted: boolean
+          question_id: string
+          scholar_id: string
+          updated_at: string
+          upvote_count: number
+          video_url: string | null
+        }
+        Insert: {
+          audio_url?: string | null
+          body?: string | null
+          created_at?: string
+          id?: string
+          is_accepted?: boolean
+          question_id: string
+          scholar_id: string
+          updated_at?: string
+          upvote_count?: number
+          video_url?: string | null
+        }
+        Update: {
+          audio_url?: string | null
+          body?: string | null
+          created_at?: string
+          id?: string
+          is_accepted?: boolean
+          question_id?: string
+          scholar_id?: string
+          updated_at?: string
+          upvote_count?: number
+          video_url?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "answers_question_id_fkey"
+            columns: ["question_id"]
+            isOneToOne: false
+            referencedRelation: "questions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      bookmarks: {
+        Row: {
+          created_at: string
+          id: string
+          question_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          question_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          question_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bookmarks_question_id_fkey"
+            columns: ["question_id"]
+            isOneToOne: false
+            referencedRelation: "questions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      categories: {
+        Row: {
+          color: string | null
+          created_at: string
+          description: string | null
+          icon: string | null
+          id: string
+          name: string
+          name_ar: string | null
+          sort_order: number
+        }
+        Insert: {
+          color?: string | null
+          created_at?: string
+          description?: string | null
+          icon?: string | null
+          id?: string
+          name: string
+          name_ar?: string | null
+          sort_order?: number
+        }
+        Update: {
+          color?: string | null
+          created_at?: string
+          description?: string | null
+          icon?: string | null
+          id?: string
+          name?: string
+          name_ar?: string | null
+          sort_order?: number
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          bio: string | null
+          created_at: string
+          display_name: string
+          id: string
+          is_verified_scholar: boolean
+          scholar_specialization: string | null
+          scholar_title: string | null
+          updated_at: string
+          user_id: string
+          username: string | null
+        }
+        Insert: {
+          avatar_url?: string | null
+          bio?: string | null
+          created_at?: string
+          display_name?: string
+          id?: string
+          is_verified_scholar?: boolean
+          scholar_specialization?: string | null
+          scholar_title?: string | null
+          updated_at?: string
+          user_id: string
+          username?: string | null
+        }
+        Update: {
+          avatar_url?: string | null
+          bio?: string | null
+          created_at?: string
+          display_name?: string
+          id?: string
+          is_verified_scholar?: boolean
+          scholar_specialization?: string | null
+          scholar_title?: string | null
+          updated_at?: string
+          user_id?: string
+          username?: string | null
+        }
+        Relationships: []
+      }
+      question_upvotes: {
+        Row: {
+          created_at: string
+          id: string
+          question_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          question_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          question_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "question_upvotes_question_id_fkey"
+            columns: ["question_id"]
+            isOneToOne: false
+            referencedRelation: "questions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      questions: {
+        Row: {
+          answer_count: number
+          body: string
+          category_id: string | null
+          created_at: string
+          id: string
+          is_anonymous: boolean
+          status: string
+          title: string
+          updated_at: string
+          upvote_count: number
+          user_id: string
+          view_count: number
+        }
+        Insert: {
+          answer_count?: number
+          body: string
+          category_id?: string | null
+          created_at?: string
+          id?: string
+          is_anonymous?: boolean
+          status?: string
+          title: string
+          updated_at?: string
+          upvote_count?: number
+          user_id: string
+          view_count?: number
+        }
+        Update: {
+          answer_count?: number
+          body?: string
+          category_id?: string | null
+          created_at?: string
+          id?: string
+          is_anonymous?: boolean
+          status?: string
+          title?: string
+          updated_at?: string
+          upvote_count?: number
+          user_id?: string
+          view_count?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "questions_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "categories"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_roles: {
+        Row: {
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "scholar" | "user"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +406,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "scholar", "user"],
+    },
   },
 } as const
