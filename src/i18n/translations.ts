@@ -823,6 +823,12 @@ const translations: Record<Language, TranslationKeys> = {
     writeComment: 'Write comment...',
     commentPosted: 'Comment don post!',
     commentFailed: 'Comment no fit post',
+    micPermissionDenied: 'Mic access no gree',
+    cameraPermissionDenied: 'Camera access no gree',
+    uploadFailed: 'Upload fail',
+    recordingSaved: 'Recording don save!',
+    recording: 'E dey record...',
+    stopRecording: 'Stop Recording',
   },
 };
 
