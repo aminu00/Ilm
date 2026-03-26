@@ -1,4 +1,4 @@
-import { Home, Search, PlusCircle, Bookmark, User, Shield } from 'lucide-react';
+import { Home, Search, PlusCircle, MessageSquare, User, Shield } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 import { useUserRoles } from '@/hooks/useProfile';
@@ -15,7 +15,7 @@ export default function MobileNav() {
     { icon: Home, label: t('home'), path: '/' },
     { icon: Search, label: t('explore'), path: '/explore' },
     { icon: PlusCircle, label: t('ask'), path: '/ask' },
-    { icon: Bookmark, label: t('saved'), path: '/bookmarks' },
+    { icon: MessageSquare, label: t('community'), path: '/community' },
     ...(isAdmin
       ? [{ icon: Shield, label: t('admin'), path: '/admin' }]
       : [{ icon: User, label: t('profile'), path: '/profile' }]),
