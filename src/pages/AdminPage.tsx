@@ -242,12 +242,15 @@ export default function AdminPage() {
 
         {/* Tabs */}
         <Tabs defaultValue="scholars" className="w-full">
-          <TabsList className="grid w-full grid-cols-2 rounded-xl">
+          <TabsList className="grid w-full grid-cols-3 rounded-xl">
             <TabsTrigger value="scholars" className="rounded-lg text-sm">
               {t('scholars')} ({scholarUsers.length})
             </TabsTrigger>
             <TabsTrigger value="users" className="rounded-lg text-sm">
               {t('users')} ({regularUsers.length})
+            </TabsTrigger>
+            <TabsTrigger value="reports" className="rounded-lg text-sm">
+              {t('reports')}
             </TabsTrigger>
           </TabsList>
 
@@ -291,6 +294,10 @@ export default function AdminPage() {
                 />
               ))
             )}
+          </TabsContent>
+
+          <TabsContent value="reports" className="mt-4 space-y-2">
+            <ReportsTab t={t} />
           </TabsContent>
         </Tabs>
       </div>
