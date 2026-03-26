@@ -226,7 +226,7 @@ export function useReports() {
       const { data: posts } = postIds.length
         ? await supabase.from('community_posts').select('id, body').in('id', postIds)
         : { data: [] };
-      const postMap = new Map(posts?.map((p: any) => [p.id, p.body]) || []);
+      const postMap = new Map<string, string>(posts?.map((p: any) => [p.id, p.body] as [string, string]) || []);
 
       return data.map((r: any) => ({
         ...r,

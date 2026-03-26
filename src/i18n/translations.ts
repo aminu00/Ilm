@@ -153,6 +153,41 @@ type TranslationKeys = {
   mostUpvoted: string;
   recent: string;
   answeredTab: string;
+  // Community
+  community: string;
+  communityTagline: string;
+  createCommunity: string;
+  communityCreated: string;
+  communityCreateFailed: string;
+  communityName: string;
+  communityNameAr: string;
+  communityDescription: string;
+  communityIcon: string;
+  noCommunities: string;
+  posts: string;
+  post: string;
+  writePost: string;
+  postCreated: string;
+  postFailed: string;
+  noPosts: string;
+  postDeleted: string;
+  // Reports
+  reportPost: string;
+  reportSpam: string;
+  reportInappropriate: string;
+  reportHarassment: string;
+  reportOther: string;
+  reportDetailsPlaceholder: string;
+  submitReport: string;
+  reportSubmitted: string;
+  reportFailed: string;
+  reports: string;
+  pendingReports: string;
+  resolvedReports: string;
+  dismissReport: string;
+  resolveReport: string;
+  reportResolved: string;
+  reportDismissed: string;
 };
 
 const translations: Record<Language, TranslationKeys> = {
