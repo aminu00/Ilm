@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, Search, Users, BookOpen, Shield, BarChart3, UserPlus, UserMinus, CheckCircle2 } from 'lucide-react';
+import { ArrowLeft, Search, Users, BookOpen, Shield, BarChart3, UserPlus, UserMinus, CheckCircle2, Flag, Check, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
@@ -23,7 +23,9 @@ import { useUserRoles } from '@/hooks/useProfile';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { supabase } from '@/integrations/supabase/client';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useReports, useResolveReport } from '@/hooks/useCommunity';
 import { toast } from 'sonner';
+import { formatDistanceToNow } from 'date-fns';
 
 interface UserWithRole {
   id: string;
