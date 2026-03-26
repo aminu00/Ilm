@@ -325,6 +325,90 @@ export default function AdminPage() {
   );
 }
 
+function ReportsTab({ t }: { t: (key: string) => string }) {
+  const { data: reports, isLoading } = useReports();
+  const resolveReport = useResolveReport();
+
+  const pendingReports = reports?.filter((r: any) => r.status === 'pending') || [];
+  const resolvedReports = reports?.filter((r: any) => r.status !== 'pending') || [];
+
+  const handleAction = async (reportId: string, action: 'resolved' | 'dismissed') => {
+    try {
+      await resolveReport.mutateAsync({ reportId, action });
+      toast.success(action === 'resolved' ? t('reportResolved') : t('reportDismissed'));
+    } catch {
+      toast.error('Failed');
+    }
+  };
+
+  if (isLoading) return <>{Array.from({ length: 3 }).map((_, i) => <Skeleton key={i} className="h-20 w-full rounded-xl" />)}</>;
+
+  return (
+    <div className="space-y-4">
+      {/* Pending */}
+      <div>
+        <h3 className="text-sm font-medium text-muted-foreground mb-2">{t('pendingReports')} ({pendingReports.length})</h3>
+        {pendingReports.length === 0 ? (
+          <div className="text-center py-8">
+            <Flag className="h-8 w-8 text-muted-foreground mx-auto mb-2" />
+            <p className="text-muted-foreground text-xs">No pending reports</p>
+          </div>
+        ) : (
+          <div className="space-y-2">
+            {pendingReports.map((r: any) => (
+              <div key={r.id} className="p-3 bg-card rounded-xl border border-border space-y-2">
+                <div className="flex items-start justify-between">
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <Badge variant="destructive" className="text-[10px] py-0 h-5 capitalize">{r.reason}</Badge>
+                      <span className="text-xs text-muted-foreground">
+                        {formatDistanceToNow(new Date(r.created_at), { addSuffix: true })}
+                      </span>
+                    </div>
+                    <p className="text-xs text-muted-foreground mt-1">by {r.reporter_name}</p>
+                  </div>
+                  <div className="flex gap-1">
+                    <Button size="icon" variant="ghost" className="h-7 w-7 rounded-full text-primary" onClick={() => handleAction(r.id, 'resolved')}>
+                      <Check className="h-4 w-4" />
+                    </Button>
+                    <Button size="icon" variant="ghost" className="h-7 w-7 rounded-full text-muted-foreground" onClick={() => handleAction(r.id, 'dismissed')}>
+                      <X className="h-4 w-4" />
+                    </Button>
+                  </div>
+                </div>
+                {r.post_body && (
+                  <p className="text-xs bg-muted/50 p-2 rounded-lg line-clamp-3">{r.post_body}</p>
+                )}
+                {r.details && <p className="text-xs text-muted-foreground italic">"{r.details}"</p>}
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Resolved */}
+      {resolvedReports.length > 0 && (
+        <div>
+          <h3 className="text-sm font-medium text-muted-foreground mb-2">{t('resolvedReports')} ({resolvedReports.length})</h3>
+          <div className="space-y-2">
+            {resolvedReports.slice(0, 10).map((r: any) => (
+              <div key={r.id} className="p-3 bg-card rounded-xl border border-border opacity-60">
+                <div className="flex items-center gap-2">
+                  <Badge variant="secondary" className="text-[10px] py-0 h-5 capitalize">{r.status}</Badge>
+                  <Badge variant="outline" className="text-[10px] py-0 h-5 capitalize">{r.reason}</Badge>
+                  <span className="text-xs text-muted-foreground">
+                    {formatDistanceToNow(new Date(r.created_at), { addSuffix: true })}
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 function UserCard({
   user,
   onToggle,
