@@ -28,6 +28,26 @@ export interface Question {
   } | null;
 }
 
+export interface Answer {
+  id: string;
+  question_id: string;
+  scholar_id: string;
+  body: string | null;
+  audio_url: string | null;
+  video_url: string | null;
+  created_at: string;
+  profiles?: {
+    display_name: string;
+    avatar_url: string | null;
+    is_verified_scholar: boolean;
+    scholar_title: string | null;
+  } | null;
+  questions?: {
+    title: string;
+    status: string;
+  } | null;
+}
+
 export function useQuestions(categoryId?: string) {
   return useQuery({
     queryKey: ['questions', categoryId],
@@ -134,7 +154,7 @@ export function useAnswers(questionId: string) {
       return data.map((a) => ({
         ...a,
         profiles: profileMap.get(a.scholar_id) || null,
-      }));
+      })) as Answer[];
     },
     enabled: !!questionId,
   });

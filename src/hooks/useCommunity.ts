@@ -30,6 +30,21 @@ export interface CommunityPost {
   is_liked: boolean;
 }
 
+export interface Report {
+  id: string;
+  reporter_id: string;
+  reported_post_id: string | null;
+  reported_user_id: string | null;
+  reason: string;
+  details: string | null;
+  status: 'pending' | 'resolved' | 'dismissed';
+  resolved_by: string | null;
+  resolved_at: string | null;
+  created_at: string;
+  reporter_name: string;
+  post_body: string | null;
+}
+
 export function useCommunities() {
   return useQuery({
     queryKey: ['communities'],
@@ -42,18 +57,18 @@ export function useCommunities() {
       if (error) throw error;
 
       // Get post counts
-      const ids = data.map((c: any) => c.id);
+      const ids = data.map((c) => c.id);
       const { data: posts } = await supabase
         .from('community_posts')
         .select('community_id')
         .in('community_id', ids);
 
       const countMap = new Map<string, number>();
-      posts?.forEach((p: any) => {
+      posts?.forEach((p) => {
         countMap.set(p.community_id, (countMap.get(p.community_id) || 0) + 1);
       });
 
-      return data.map((c: any) => ({ ...c, post_count: countMap.get(c.id) || 0 })) as Community[];
+      return data.map((c) => ({ ...c, post_count: countMap.get(c.id) || 0 })) as Community[];
     },
   });
 }
@@ -74,7 +89,7 @@ export function useCommunityPosts(communityId: string) {
       if (!posts?.length) return [];
 
       // Fetch profiles
-      const userIds = [...new Set(posts.map((p: any) => p.user_id))];
+      const userIds = [...new Set(posts.map((p) => p.user_id))];
       const { data: profiles } = await supabase
         .from('profiles')
         .select('user_id, display_name, avatar_url, is_verified_scholar')
@@ -83,7 +98,7 @@ export function useCommunityPosts(communityId: string) {
       const profileMap = new Map(profiles?.map((p) => [p.user_id, p]) || []);
 
       // Fetch like counts
-      const postIds = posts.map((p: any) => p.id);
+      const postIds = posts.map((p) => p.id);
       const { data: likes } = await supabase
         .from('community_post_likes')
         .select('post_id, user_id')
@@ -91,12 +106,12 @@ export function useCommunityPosts(communityId: string) {
 
       const likeCountMap = new Map<string, number>();
       const userLikeSet = new Set<string>();
-      likes?.forEach((l: any) => {
+      likes?.forEach((l) => {
         likeCountMap.set(l.post_id, (likeCountMap.get(l.post_id) || 0) + 1);
         if (l.user_id === user?.id) userLikeSet.add(l.post_id);
       });
 
-      return posts.map((p: any) => ({
+      return posts.map((p) => ({
         ...p,
         profile: profileMap.get(p.user_id),
         like_count: likeCountMap.get(p.id) || 0,
@@ -117,7 +132,7 @@ export function useCreatePost() {
 
       const { error } = await supabase
         .from('community_posts')
-        .insert({ community_id: communityId, user_id: user.id, body } as any);
+        .insert({ community_id: communityId, user_id: user.id, body });
       if (error) throw error;
     },
     onSuccess: (_, vars) => {
@@ -138,7 +153,7 @@ export function useTogglePostLike() {
       if (isLiked) {
         await supabase.from('community_post_likes').delete().eq('post_id', postId).eq('user_id', user.id);
       } else {
-        await supabase.from('community_post_likes').insert({ post_id: postId, user_id: user.id } as any);
+        await supabase.from('community_post_likes').insert({ post_id: postId, user_id: user.id });
       }
     },
     onSuccess: (_, vars) => {
@@ -172,7 +187,7 @@ export function useCreateCommunity() {
 
       const { error } = await supabase
         .from('communities')
-        .insert({ ...community, created_by: user.id } as any);
+        .insert({ ...community, created_by: user.id });
       if (error) throw error;
     },
     onSuccess: () => {
@@ -195,7 +210,7 @@ export function useCreateReport() {
           reported_user_id: userId || null,
           reason,
           details,
-        } as any);
+        });
       if (error) throw error;
     },
   });
@@ -214,7 +229,7 @@ export function useReports() {
       if (!data?.length) return [];
 
       // Get reporter profiles
-      const reporterIds = [...new Set(data.map((r: any) => r.reporter_id))];
+      const reporterIds = [...new Set(data.map((r) => r.reporter_id))];
       const { data: profiles } = await supabase
         .from('profiles')
         .select('user_id, display_name')
@@ -222,17 +237,17 @@ export function useReports() {
       const profileMap = new Map(profiles?.map((p) => [p.user_id, p.display_name]) || []);
 
       // Get post bodies for reported posts
-      const postIds = data.filter((r: any) => r.reported_post_id).map((r: any) => r.reported_post_id);
+      const postIds = data.filter((r) => r.reported_post_id).map((r) => r.reported_post_id);
       const { data: posts } = postIds.length
         ? await supabase.from('community_posts').select('id, body').in('id', postIds)
         : { data: [] };
-      const postMap = new Map<string, string>(posts?.map((p: any) => [p.id, p.body] as [string, string]) || []);
+      const postMap = new Map<string, string>(posts?.map((p) => [p.id, p.body] as [string, string]) || []);
 
-      return data.map((r: any) => ({
+      return data.map((r) => ({
         ...r,
         reporter_name: profileMap.get(r.reporter_id) || 'Unknown',
         post_body: r.reported_post_id ? postMap.get(r.reported_post_id) : null,
-      }));
+      })) as Report[];
     },
   });
 }
@@ -247,7 +262,7 @@ export function useResolveReport() {
 
       const { error } = await supabase
         .from('reports')
-        .update({ status: action, resolved_by: user.id, resolved_at: new Date().toISOString() } as any)
+        .update({ status: action, resolved_by: user.id, resolved_at: new Date().toISOString() })
         .eq('id', reportId);
       if (error) throw error;
     },

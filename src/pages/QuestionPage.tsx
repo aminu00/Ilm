@@ -156,7 +156,7 @@ export default function QuestionPage() {
               <p className="text-xs text-muted-foreground mt-1">{t('scholarWillAnswer')}</p>
             </div>
           ) : (
-            answers?.map((answer: any) => (
+            answers?.map((answer) => (
               <div key={answer.id} className="p-4 bg-card rounded-xl border border-primary/20 space-y-3">
                 <div className="flex items-center gap-2">
                   <button

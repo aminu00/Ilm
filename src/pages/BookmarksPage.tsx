@@ -29,7 +29,7 @@ export default function BookmarksPage() {
             <p className="text-sm text-muted-foreground">{t('bookmarkToFind')}</p>
           </div>
         ) : (
-          bookmarks?.map((b: any) => b.questions && <QuestionCard key={b.id} question={b.questions} />)
+          bookmarks?.map((b) => b.questions && <QuestionCard key={b.id} question={b.questions} />)
         )}
       </div>
     </AppLayout>

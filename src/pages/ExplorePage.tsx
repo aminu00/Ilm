@@ -21,7 +21,7 @@ export default function ExplorePage() {
   const sorted = useMemo(() => {
     if (!questions) return [];
 
-    let filtered = questions.filter(
+    const filtered = questions.filter(
       (q) =>
         q.title.toLowerCase().includes(search.toLowerCase()) ||
         q.body.toLowerCase().includes(search.toLowerCase())

@@ -30,7 +30,7 @@ export default function CommentSection({ answerId }: CommentSectionProps) {
         .order('created_at', { ascending: true });
       if (error) throw error;
 
-      const userIds = [...new Set(data.map((c: any) => c.user_id))];
+      const userIds = [...new Set(data.map((c) => c.user_id))];
       if (userIds.length === 0) return [];
 
       const { data: profiles } = await supabase
@@ -38,8 +38,8 @@ export default function CommentSection({ answerId }: CommentSectionProps) {
         .select('user_id, display_name, avatar_url')
         .in('user_id', userIds);
 
-      const profileMap = new Map(profiles?.map((p: any) => [p.user_id, p]));
-      return data.map((c: any) => ({ ...c, profile: profileMap.get(c.user_id) }));
+      const profileMap = new Map(profiles?.map((p) => [p.user_id, p]));
+      return data.map((c) => ({ ...c, profile: profileMap.get(c.user_id) }));
     },
     enabled: expanded,
   });
@@ -92,7 +92,7 @@ export default function CommentSection({ answerId }: CommentSectionProps) {
           ) : comments?.length === 0 ? (
             <p className="text-xs text-muted-foreground">{t('noComments')}</p>
           ) : (
-            comments?.map((comment: any) => (
+            comments?.map((comment) => (
               <div key={comment.id} className="space-y-1">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-1.5">

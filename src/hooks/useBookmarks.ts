@@ -1,6 +1,15 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
+import { Question } from './useQuestions';
+
+export interface Bookmark {
+  id: string;
+  user_id: string;
+  question_id: string;
+  created_at: string;
+  questions: Question;
+}
 
 export function useBookmarks() {
   const { user } = useAuth();
@@ -22,7 +31,7 @@ export function useBookmarks() {
         .eq('user_id', user.id)
         .order('created_at', { ascending: false });
       if (error) throw error;
-      return data;
+      return data as unknown as Bookmark[];
     },
     enabled: !!user,
   });

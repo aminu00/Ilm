@@ -146,7 +146,7 @@ export default function ScholarPage() {
               <p className="text-muted-foreground text-sm">{t('noAnswersYet')}</p>
             </div>
           ) : (
-            answers?.map((answer: any) => (
+            answers?.map((answer) => (
               <button
                 key={answer.id}
                 onClick={() => navigate(`/question/${answer.question_id}`)}

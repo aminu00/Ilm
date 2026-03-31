@@ -1,9 +1,8 @@
 {
-  "appId": "app.lovable.1936d656529c4502b4beff6ad9fa5f5b",
+  "appId": "com.islamicaskaid.ilm",
   "appName": "Ilm - Islamic Q&A",
   "webDir": "dist",
   "server": {
-    "url": "https://1936d656-529c-4502-b4be-ff6ad9fa5f5b.lovableproject.com?forceHideBadge=true",
     "cleartext": true
   }
 }

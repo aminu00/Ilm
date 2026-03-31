@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, Search, Users, BookOpen, Shield, BarChart3, UserPlus, UserMinus, CheckCircle2, Flag, Check, X } from 'lucide-react';
+import { ArrowLeft, Search, Users, BookOpen, Shield, BarChart3, UserPlus, UserMinus, CheckCircle2, Flag, Check, X, LogOut } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
@@ -101,7 +101,7 @@ function useToggleScholar() {
       if (action === 'add') {
         const { error: roleError } = await supabase
           .from('user_roles')
-          .insert({ user_id: userId, role: 'scholar' as any });
+          .insert({ user_id: userId, role: 'scholar' });
         if (roleError) throw roleError;
 
         const { error: profileError } = await supabase
@@ -114,7 +114,7 @@ function useToggleScholar() {
           .from('user_roles')
           .delete()
           .eq('user_id', userId)
-          .eq('role', 'scholar' as any);
+          .eq('role', 'scholar');
         if (roleError) throw roleError;
 
         const { error: profileError } = await supabase
@@ -133,7 +133,7 @@ function useToggleScholar() {
 
 export default function AdminPage() {
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const { user, signOut } = useAuth();
   const { data: roles, isLoading: rolesLoading } = useUserRoles();
   const { t } = useLanguage();
   const [search, setSearch] = useState('');
@@ -202,14 +202,25 @@ export default function AdminPage() {
   return (
     <AppLayout>
       <header className="sticky top-0 z-40 bg-background/95 backdrop-blur-lg border-b border-border safe-top">
-        <div className="flex items-center gap-3 px-4 py-3">
-          <Button variant="ghost" size="icon" className="rounded-full" onClick={() => navigate('/')}>
-            <ArrowLeft className="h-5 w-5" />
-          </Button>
-          <div>
-            <h1 className="text-lg font-semibold">{t('adminPanel')}</h1>
-            <p className="text-xs text-muted-foreground">{t('manageScholars')}</p>
+        <div className="flex items-center justify-between px-4 py-3">
+          <div className="flex items-center gap-3">
+            <Button variant="ghost" size="icon" className="rounded-full" onClick={() => navigate('/')}>
+              <ArrowLeft className="h-5 w-5" />
+            </Button>
+            <div>
+              <h1 className="text-lg font-semibold">{t('adminPanel')}</h1>
+              <p className="text-xs text-muted-foreground">{t('manageScholars')}</p>
+            </div>
           </div>
+          <Button 
+            variant="ghost" 
+            size="sm" 
+            className="rounded-xl text-destructive hover:text-destructive hover:bg-destructive/10"
+            onClick={signOut}
+          >
+            <LogOut className="h-4 w-4 mr-2" />
+            {t('signOut')}
+          </Button>
         </div>
       </header>
 
@@ -329,8 +340,8 @@ function ReportsTab({ t }: { t: (key: string) => string }) {
   const { data: reports, isLoading } = useReports();
   const resolveReport = useResolveReport();
 
-  const pendingReports = reports?.filter((r: any) => r.status === 'pending') || [];
-  const resolvedReports = reports?.filter((r: any) => r.status !== 'pending') || [];
+  const pendingReports = reports?.filter((r) => r.status === 'pending') || [];
+  const resolvedReports = reports?.filter((r) => r.status !== 'pending') || [];
 
   const handleAction = async (reportId: string, action: 'resolved' | 'dismissed') => {
     try {
@@ -355,7 +366,7 @@ function ReportsTab({ t }: { t: (key: string) => string }) {
           </div>
         ) : (
           <div className="space-y-2">
-            {pendingReports.map((r: any) => (
+            {pendingReports.map((r) => (
               <div key={r.id} className="p-3 bg-card rounded-xl border border-border space-y-2">
                 <div className="flex items-start justify-between">
                   <div>
@@ -391,7 +402,7 @@ function ReportsTab({ t }: { t: (key: string) => string }) {
         <div>
           <h3 className="text-sm font-medium text-muted-foreground mb-2">{t('resolvedReports')} ({resolvedReports.length})</h3>
           <div className="space-y-2">
-            {resolvedReports.slice(0, 10).map((r: any) => (
+            {resolvedReports.slice(0, 10).map((r) => (
               <div key={r.id} className="p-3 bg-card rounded-xl border border-border opacity-60">
                 <div className="flex items-center gap-2">
                   <Badge variant="secondary" className="text-[10px] py-0 h-5 capitalize">{r.status}</Badge>
