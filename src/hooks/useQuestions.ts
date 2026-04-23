@@ -160,6 +160,63 @@ export function useAnswers(questionId: string) {
   });
 }
 
+export function useUpdateQuestion() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (data: { id: string; title: string; body: string; category_id: string | null; is_anonymous: boolean }) => {
+      const { data: question, error } = await supabase
+        .from('questions')
+        .update({ title: data.title, body: data.body, category_id: data.category_id, is_anonymous: data.is_anonymous })
+        .eq('id', data.id)
+        .select()
+        .single();
+      if (error) throw error;
+      return question;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['questions'] });
+    },
+  });
+}
+
+export function useDeleteQuestion() {
+  const queryClient = useQueryClient();
+  const { user } = useAuth();
+
+  return useMutation({
+    mutationFn: async (data: { questionId: string; questionTitle: string; userId: string; isAdminDelete: boolean }) => {
+      // Delete the question
+      const { error: deleteError } = await supabase
+        .from('questions')
+        .delete()
+        .eq('id', data.questionId);
+      if (deleteError) throw deleteError;
+
+      // If admin deleted it, create a notification for the question owner
+      if (data.isAdminDelete && data.userId !== user?.id) {
+        const { error: notificationError } = await supabase
+          .from('notifications')
+          .insert({
+            user_id: data.userId,
+            type: 'question_deleted',
+            title: 'Question Deleted',
+            message: `Your question "${data.questionTitle}" has been deleted by an admin. If you think this is a mistake, please contact the administrator.`,
+          });
+        if (notificationError) {
+          console.error('Failed to create notification:', notificationError);
+          // Don't throw - the question was deleted successfully
+        }
+      }
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['questions'] });
+      queryClient.invalidateQueries({ queryKey: ['notifications'] });
+      queryClient.invalidateQueries({ queryKey: ['unread-notifications-count'] });
+    },
+  });
+}
+
 export function useCreateAnswer() {
   const queryClient = useQueryClient();
   const { user } = useAuth();

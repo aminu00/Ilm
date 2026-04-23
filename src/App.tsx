@@ -17,6 +17,7 @@ import AdminPage from "./pages/AdminPage";
 import CommunityListPage from "./pages/CommunityListPage";
 import CommunityDetailPage from "./pages/CommunityDetailPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
+import NotificationsPage from "./pages/NotificationsPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -54,6 +55,7 @@ const App = () => (
               <Route path="/bookmarks" element={<ProtectedRoute><BookmarksPage /></ProtectedRoute>} />
               <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
               <Route path="/admin" element={<ProtectedRoute><AdminPage /></ProtectedRoute>} />
+              <Route path="/notifications" element={<ProtectedRoute><NotificationsPage /></ProtectedRoute>} />
               <Route path="/community" element={<ProtectedRoute><CommunityListPage /></ProtectedRoute>} />
               <Route path="/community/:id" element={<ProtectedRoute><CommunityDetailPage /></ProtectedRoute>} />
               <Route path="*" element={<NotFound />} />

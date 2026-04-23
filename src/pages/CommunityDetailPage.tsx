@@ -122,10 +122,10 @@ export default function CommunityDetailPage() {
           </div>
         ) : (
           posts.map((post) => (
-            <div key={post.id} className="bg-card rounded-xl border border-border p-4 space-y-3">
+            <div key={post.id} className="bg-card rounded-xl border border-border p-4 space-y-3 w-full overflow-hidden">
               {/* Post header */}
-              <div className="flex items-start justify-between">
-                <div className="flex items-center gap-2.5">
+              <div className="flex items-start justify-between gap-2">
+                <div className="flex items-center gap-2.5 min-w-0 flex-1">
                   <div className="h-9 w-9 rounded-full bg-primary/10 flex items-center justify-center text-primary text-sm font-semibold shrink-0">
                     {post.profile?.avatar_url ? (
                       <img src={post.profile.avatar_url} alt="" className="h-full w-full rounded-full object-cover" />
@@ -134,11 +134,11 @@ export default function CommunityDetailPage() {
                     )}
                   </div>
                   <div>
-                    <div className="flex items-center gap-1">
-                      <span className="text-sm font-medium">{post.profile?.display_name ?? t('anonymous')}</span>
-                      {post.profile?.is_verified_scholar && <CheckCircle2 className="h-3.5 w-3.5 text-scholar" />}
+                    <div className="flex items-center gap-1 min-w-0">
+                      <span className="text-sm font-medium truncate">{post.profile?.display_name ?? t('anonymous')}</span>
+                      {post.profile?.is_verified_scholar && <CheckCircle2 className="h-3.5 w-3.5 text-scholar flex-shrink-0" />}
                     </div>
-                    <span className="text-xs text-muted-foreground">
+                    <span className="text-xs text-muted-foreground truncate">
                       {formatDistanceToNow(new Date(post.created_at), { addSuffix: true })}
                     </span>
                   </div>
@@ -161,13 +161,18 @@ export default function CommunityDetailPage() {
                     {(post.user_id === user?.id || isAdmin) && (
                       <DropdownMenuItem
                         onClick={async () => {
-                          await deletePost.mutateAsync({ postId: post.id });
+                          await deletePost.mutateAsync({ 
+                            postId: post.id, 
+                            postBody: post.body, 
+                            postUserId: post.user_id,
+                            isAdminDelete: isAdmin && post.user_id !== user?.id 
+                          });
                           toast.success(t('postDeleted'));
                         }}
                         className="text-destructive gap-2"
                       >
                         <Trash2 className="h-4 w-4" />
-                        {t('delete')}
+                        {t('delete')} {isAdmin && post.user_id !== user?.id && '(Admin)'}
                       </DropdownMenuItem>
                     )}
                   </DropdownMenuContent>
@@ -175,7 +180,7 @@ export default function CommunityDetailPage() {
               </div>
 
               {/* Post body */}
-              <p className="text-sm whitespace-pre-wrap leading-relaxed">{post.body}</p>
+              <p className="text-sm whitespace-pre-wrap leading-relaxed break-words overflow-hidden">{post.body}</p>
 
               {/* Post actions */}
               <div className="flex items-center gap-4 pt-1">

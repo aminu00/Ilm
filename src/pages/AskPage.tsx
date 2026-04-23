@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { ArrowLeft, Send } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -9,19 +9,32 @@ import { Switch } from '@/components/ui/switch';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import AppLayout from '@/components/layout/AppLayout';
 import { useCategories } from '@/hooks/useCategories';
-import { useCreateQuestion } from '@/hooks/useQuestions';
+import { useCreateQuestion, useUpdateQuestion, useQuestion } from '@/hooks/useQuestions';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { toast } from 'sonner';
 
 export default function AskPage() {
+  const [searchParams] = useSearchParams();
+  const editId = searchParams.get('edit');
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
   const [categoryId, setCategoryId] = useState<string>('');
   const [isAnonymous, setIsAnonymous] = useState(false);
   const { data: categories } = useCategories();
   const createQuestion = useCreateQuestion();
+  const updateQuestion = useUpdateQuestion();
+  const { data: editingQuestion, isLoading: isLoadingQuestion } = useQuestion(editId || '');
   const { t } = useLanguage();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (editingQuestion) {
+      setTitle(editingQuestion.title);
+      setBody(editingQuestion.body);
+      setCategoryId(editingQuestion.category_id || '');
+      setIsAnonymous(editingQuestion.is_anonymous);
+    }
+  }, [editingQuestion]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -31,16 +44,27 @@ export default function AskPage() {
     }
 
     try {
-      await createQuestion.mutateAsync({
-        title: title.trim(),
-        body: body.trim(),
-        category_id: categoryId || null,
-        is_anonymous: isAnonymous,
-      });
-      toast.success('Question posted!');
+      if (editId && editingQuestion) {
+        await updateQuestion.mutateAsync({
+          id: editId,
+          title: title.trim(),
+          body: body.trim(),
+          category_id: categoryId || null,
+          is_anonymous: isAnonymous,
+        });
+        toast.success('Question updated!');
+      } else {
+        await createQuestion.mutateAsync({
+          title: title.trim(),
+          body: body.trim(),
+          category_id: categoryId || null,
+          is_anonymous: isAnonymous,
+        });
+        toast.success('Question posted!');
+      }
       navigate('/');
-    } catch {
-      toast.error('Failed to post question');
+    } catch (error) {
+      toast.error(editId ? 'Failed to update question' : 'Failed to post question');
     }
   };
 
@@ -51,10 +75,15 @@ export default function AskPage() {
           <Button variant="ghost" size="icon" className="rounded-full" onClick={() => navigate(-1)}>
             <ArrowLeft className="h-5 w-5" />
           </Button>
-          <h1 className="text-lg font-semibold">{t('askQuestion')}</h1>
+          <h1 className="text-lg font-semibold">{editId ? 'Edit Question' : t('askQuestion')}</h1>
         </div>
       </header>
 
+      {isLoadingQuestion && editId ? (
+        <div className="flex items-center justify-center min-h-screen">
+          <div className="h-8 w-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+        </div>
+      ) : (
       <form onSubmit={handleSubmit} className="px-4 py-4 space-y-5">
         <div className="space-y-2">
           <Label htmlFor="category">{t('category')}</Label>
@@ -111,12 +140,13 @@ export default function AskPage() {
         <Button
           type="submit"
           className="w-full h-12 rounded-xl"
-          disabled={createQuestion.isPending || !title.trim() || !body.trim()}
+          disabled={(editId ? updateQuestion.isPending : createQuestion.isPending) || !title.trim() || !body.trim()}
         >
           <Send className="h-4 w-4 mr-2" />
-          {createQuestion.isPending ? t('posting') : t('postQuestion')}
+          {editId ? (updateQuestion.isPending ? 'Updating...' : 'Update Question') : (createQuestion.isPending ? t('posting') : t('postQuestion'))}
         </Button>
       </form>
+      )}
     </AppLayout>
   );
 }

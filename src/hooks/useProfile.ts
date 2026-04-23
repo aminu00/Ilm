@@ -52,3 +52,8 @@ export function useUserRoles() {
     enabled: !!user,
   });
 }
+
+export function useIsAdmin() {
+  const { data: roles } = useUserRoles();
+  return roles?.includes('admin') ?? false;
+}

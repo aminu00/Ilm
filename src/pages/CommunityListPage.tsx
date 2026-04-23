@@ -75,7 +75,7 @@ export default function CommunityListPage() {
             <button
               key={c.id}
               onClick={() => navigate(`/community/${c.id}`)}
-              className="w-full flex items-center gap-4 p-4 bg-card rounded-xl border border-border hover:border-primary/30 transition-colors text-left"
+              className="w-full flex items-center gap-4 p-4 bg-card rounded-xl border border-border hover:border-primary/30 transition-colors text-left overflow-hidden"
             >
               <div
                 className="h-12 w-12 rounded-xl flex items-center justify-center text-2xl shrink-0"
@@ -86,10 +86,10 @@ export default function CommunityListPage() {
               <div className="flex-1 min-w-0">
                 <p className="font-medium text-sm truncate">{c.name}</p>
                 {c.description && (
-                  <p className="text-xs text-muted-foreground line-clamp-1 mt-0.5">{c.description}</p>
+                  <p className="text-xs text-muted-foreground line-clamp-1 mt-0.5 break-words">{c.description}</p>
                 )}
-                <div className="flex items-center gap-1 mt-1 text-xs text-muted-foreground">
-                  <MessageSquare className="h-3 w-3" />
+                <div className="flex items-center gap-1 mt-1 text-xs text-muted-foreground truncate">
+                  <MessageSquare className="h-3 w-3 flex-shrink-0" />
                   <span>{c.post_count ?? 0} {t('posts')}</span>
                 </div>
               </div>

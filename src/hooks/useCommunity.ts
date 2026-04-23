@@ -164,15 +164,36 @@ export function useTogglePostLike() {
 
 export function useDeletePost() {
   const queryClient = useQueryClient();
+  const { user } = useAuth();
 
   return useMutation({
-    mutationFn: async ({ postId }: { postId: string }) => {
-      const { error } = await supabase.from('community_posts').delete().eq('id', postId);
-      if (error) throw error;
+    mutationFn: async ({ postId, postBody, postUserId, isAdminDelete }: { postId: string; postBody: string; postUserId: string; isAdminDelete: boolean }) => {
+      // Delete the post
+      const { error: deleteError } = await supabase.from('community_posts').delete().eq('id', postId);
+      if (deleteError) throw deleteError;
+
+      // If admin deleted it, create notification for post author
+      if (isAdminDelete && postUserId !== user?.id) {
+        try {
+          await supabase
+            .from('notifications' as any)
+            .insert({
+              user_id: postUserId,
+              type: 'post_deleted',
+              title: 'Community Post Deleted',
+              message: `Your community post "${postBody.substring(0, 50)}${postBody.length > 50 ? '...' : ''}" has been deleted by an admin. If you think this is a mistake, please contact the administrator.`,
+            });
+        } catch (err) {
+          console.error('Failed to create notification:', err);
+          // Don't throw - the post was deleted successfully
+        }
+      }
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['community-posts'] });
       queryClient.invalidateQueries({ queryKey: ['communities'] });
+      queryClient.invalidateQueries({ queryKey: ['notifications'] });
+      queryClient.invalidateQueries({ queryKey: ['unread-notifications-count'] });
     },
   });
 }
@@ -236,17 +257,20 @@ export function useReports() {
         .in('user_id', reporterIds);
       const profileMap = new Map(profiles?.map((p) => [p.user_id, p.display_name]) || []);
 
-      // Get post bodies for reported posts
+      // Get post bodies and user_ids for reported posts
       const postIds = data.filter((r) => r.reported_post_id).map((r) => r.reported_post_id);
       const { data: posts } = postIds.length
-        ? await supabase.from('community_posts').select('id, body').in('id', postIds)
+        ? await supabase.from('community_posts').select('id, body, user_id').in('id', postIds)
         : { data: [] };
-      const postMap = new Map<string, string>(posts?.map((p) => [p.id, p.body] as [string, string]) || []);
+      const postMap = new Map<string, { body: string; user_id: string }>(
+        posts?.map((p) => [p.id, { body: p.body, user_id: p.user_id }]) || []
+      );
 
       return data.map((r) => ({
         ...r,
         reporter_name: profileMap.get(r.reporter_id) || 'Unknown',
-        post_body: r.reported_post_id ? postMap.get(r.reported_post_id) : null,
+        post_body: r.reported_post_id ? postMap.get(r.reported_post_id)?.body || null : null,
+        reported_user_id: r.reported_post_id ? postMap.get(r.reported_post_id)?.user_id || null : null,
       })) as Report[];
     },
   });

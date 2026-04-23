@@ -10,12 +10,14 @@ import DailyReminder from '@/components/home/DailyReminder';
 import CategoryChip from '@/components/questions/CategoryChip';
 import { useQuestions } from '@/hooks/useQuestions';
 import { useCategories } from '@/hooks/useCategories';
+import { useUnreadNotificationCount } from '@/hooks/useNotifications';
 import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function HomePage() {
   const [selectedCategory, setSelectedCategory] = useState<string | undefined>();
   const { data: questions, isLoading: questionsLoading } = useQuestions(selectedCategory);
   const { data: categories, isLoading: categoriesLoading } = useCategories();
+  const { data: unreadCount = 0 } = useUnreadNotificationCount();
   const { t } = useLanguage();
   const navigate = useNavigate();
 
@@ -28,8 +30,16 @@ export default function HomePage() {
             <p className="text-xs text-muted-foreground -mt-0.5">{t('appTagline')}</p>
           </div>
           <div className="flex items-center gap-2">
-            <Button variant="ghost" size="icon" className="rounded-full">
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              className="rounded-full relative"
+              onClick={() => navigate('/notifications')}
+            >
               <Bell className="h-5 w-5" />
+              {unreadCount > 0 && (
+                <span className="absolute top-0 right-0 h-2 w-2 bg-destructive rounded-full" />
+              )}
             </Button>
           </div>
         </div>

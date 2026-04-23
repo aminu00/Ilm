@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, Search, Users, BookOpen, Shield, BarChart3, UserPlus, UserMinus, CheckCircle2, Flag, Check, X, LogOut } from 'lucide-react';
+import { ArrowLeft, Search, Users, BookOpen, Shield, BarChart3, UserPlus, UserMinus, CheckCircle2, Flag, Check, X, LogOut, Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
@@ -23,7 +23,7 @@ import { useUserRoles } from '@/hooks/useProfile';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { supabase } from '@/integrations/supabase/client';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { useReports, useResolveReport } from '@/hooks/useCommunity';
+import { useReports, useResolveReport, useDeletePost } from '@/hooks/useCommunity';
 import { toast } from 'sonner';
 import { formatDistanceToNow } from 'date-fns';
 
@@ -337,8 +337,16 @@ export default function AdminPage() {
 }
 
 function ReportsTab({ t }: { t: (key: string) => string }) {
+  const { user } = useAuth();
   const { data: reports, isLoading } = useReports();
   const resolveReport = useResolveReport();
+  const deletePost = useDeletePost();
+  const [deleteDialog, setDeleteDialog] = useState<{ open: boolean; reportId: string; postId: string | null; postBody: string }>({
+    open: false,
+    reportId: '',
+    postId: null,
+    postBody: '',
+  });
 
   const pendingReports = reports?.filter((r) => r.status === 'pending') || [];
   const resolvedReports = reports?.filter((r) => r.status !== 'pending') || [];
@@ -352,71 +360,146 @@ function ReportsTab({ t }: { t: (key: string) => string }) {
     }
   };
 
+  const handleDeletePost = async () => {
+    if (!deleteDialog.postId || !user) return;
+    try {
+      const report = reports?.find((r) => r.id === deleteDialog.reportId);
+      if (!report) return;
+
+      // Delete the post
+      await deletePost.mutateAsync({
+        postId: deleteDialog.postId,
+        postBody: deleteDialog.postBody,
+        postUserId: report.reported_user_id || '',
+        isAdminDelete: true,
+      });
+
+      // Mark report as resolved
+      await resolveReport.mutateAsync({ reportId: deleteDialog.reportId, action: 'resolved' });
+
+      toast.success('Post deleted and report resolved');
+      setDeleteDialog({ open: false, reportId: '', postId: null, postBody: '' });
+    } catch (err) {
+      console.error('Failed to delete post:', err);
+      toast.error('Failed to delete post');
+    }
+  };
+
   if (isLoading) return <>{Array.from({ length: 3 }).map((_, i) => <Skeleton key={i} className="h-20 w-full rounded-xl" />)}</>;
 
   return (
-    <div className="space-y-4">
-      {/* Pending */}
-      <div>
-        <h3 className="text-sm font-medium text-muted-foreground mb-2">{t('pendingReports')} ({pendingReports.length})</h3>
-        {pendingReports.length === 0 ? (
-          <div className="text-center py-8">
-            <Flag className="h-8 w-8 text-muted-foreground mx-auto mb-2" />
-            <p className="text-muted-foreground text-xs">No pending reports</p>
-          </div>
-        ) : (
-          <div className="space-y-2">
-            {pendingReports.map((r) => (
-              <div key={r.id} className="p-3 bg-card rounded-xl border border-border space-y-2">
-                <div className="flex items-start justify-between">
-                  <div>
-                    <div className="flex items-center gap-2">
-                      <Badge variant="destructive" className="text-[10px] py-0 h-5 capitalize">{r.reason}</Badge>
-                      <span className="text-xs text-muted-foreground">
-                        {formatDistanceToNow(new Date(r.created_at), { addSuffix: true })}
-                      </span>
+    <>
+      <div className="space-y-4">
+        {/* Pending */}
+        <div>
+          <h3 className="text-sm font-medium text-muted-foreground mb-2">{t('pendingReports')} ({pendingReports.length})</h3>
+          {pendingReports.length === 0 ? (
+            <div className="text-center py-8">
+              <Flag className="h-8 w-8 text-muted-foreground mx-auto mb-2" />
+              <p className="text-muted-foreground text-xs">No pending reports</p>
+            </div>
+          ) : (
+            <div className="space-y-2">
+              {pendingReports.map((r) => (
+                <div key={r.id} className="p-3 bg-card rounded-xl border border-border space-y-2">
+                  <div className="flex items-start justify-between">
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2">
+                        <Badge variant="destructive" className="text-[10px] py-0 h-5 capitalize">{r.reason}</Badge>
+                        <span className="text-xs text-muted-foreground">
+                          {formatDistanceToNow(new Date(r.created_at), { addSuffix: true })}
+                        </span>
+                      </div>
+                      <p className="text-xs text-muted-foreground mt-1">by {r.reporter_name}</p>
                     </div>
-                    <p className="text-xs text-muted-foreground mt-1">by {r.reporter_name}</p>
+                    <div className="flex gap-1">
+                      {r.reported_post_id && (
+                        <Button
+                          size="icon"
+                          variant="ghost"
+                          className="h-7 w-7 rounded-full text-destructive hover:bg-destructive/10"
+                          onClick={() =>
+                            setDeleteDialog({
+                              open: true,
+                              reportId: r.id,
+                              postId: r.reported_post_id,
+                              postBody: r.post_body || '',
+                            })
+                          }
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
+                      )}
+                      <Button
+                        size="icon"
+                        variant="ghost"
+                        className="h-7 w-7 rounded-full text-primary"
+                        onClick={() => handleAction(r.id, 'resolved')}
+                      >
+                        <Check className="h-4 w-4" />
+                      </Button>
+                      <Button
+                        size="icon"
+                        variant="ghost"
+                        className="h-7 w-7 rounded-full text-muted-foreground"
+                        onClick={() => handleAction(r.id, 'dismissed')}
+                      >
+                        <X className="h-4 w-4" />
+                      </Button>
+                    </div>
                   </div>
-                  <div className="flex gap-1">
-                    <Button size="icon" variant="ghost" className="h-7 w-7 rounded-full text-primary" onClick={() => handleAction(r.id, 'resolved')}>
-                      <Check className="h-4 w-4" />
-                    </Button>
-                    <Button size="icon" variant="ghost" className="h-7 w-7 rounded-full text-muted-foreground" onClick={() => handleAction(r.id, 'dismissed')}>
-                      <X className="h-4 w-4" />
-                    </Button>
+                  {r.post_body && (
+                    <p className="text-xs bg-muted/50 p-2 rounded-lg line-clamp-3">{r.post_body}</p>
+                  )}
+                  {r.details && <p className="text-xs text-muted-foreground italic">"{r.details}"</p>}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Resolved */}
+        {resolvedReports.length > 0 && (
+          <div>
+            <h3 className="text-sm font-medium text-muted-foreground mb-2">{t('resolvedReports')} ({resolvedReports.length})</h3>
+            <div className="space-y-2">
+              {resolvedReports.slice(0, 10).map((r) => (
+                <div key={r.id} className="p-3 bg-card rounded-xl border border-border opacity-60">
+                  <div className="flex items-center gap-2">
+                    <Badge variant="secondary" className="text-[10px] py-0 h-5 capitalize">{r.status}</Badge>
+                    <Badge variant="outline" className="text-[10px] py-0 h-5 capitalize">{r.reason}</Badge>
+                    <span className="text-xs text-muted-foreground">
+                      {formatDistanceToNow(new Date(r.created_at), { addSuffix: true })}
+                    </span>
                   </div>
                 </div>
-                {r.post_body && (
-                  <p className="text-xs bg-muted/50 p-2 rounded-lg line-clamp-3">{r.post_body}</p>
-                )}
-                {r.details && <p className="text-xs text-muted-foreground italic">"{r.details}"</p>}
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         )}
       </div>
 
-      {/* Resolved */}
-      {resolvedReports.length > 0 && (
-        <div>
-          <h3 className="text-sm font-medium text-muted-foreground mb-2">{t('resolvedReports')} ({resolvedReports.length})</h3>
-          <div className="space-y-2">
-            {resolvedReports.slice(0, 10).map((r) => (
-              <div key={r.id} className="p-3 bg-card rounded-xl border border-border opacity-60">
-                <div className="flex items-center gap-2">
-                  <Badge variant="secondary" className="text-[10px] py-0 h-5 capitalize">{r.status}</Badge>
-                  <Badge variant="outline" className="text-[10px] py-0 h-5 capitalize">{r.reason}</Badge>
-                  <span className="text-xs text-muted-foreground">
-                    {formatDistanceToNow(new Date(r.created_at), { addSuffix: true })}
-                  </span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-    </div>
+      {/* Delete Confirmation Dialog */}
+      <AlertDialog open={deleteDialog.open} onOpenChange={(open) => setDeleteDialog((p) => ({ ...p, open }))}>
+        <AlertDialogContent className="rounded-2xl max-w-[90vw]">
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete Post</AlertDialogTitle>
+            <AlertDialogDescription>
+              This will delete the reported post and notify the author that the post has been removed by an admin.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel className="rounded-xl">Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={handleDeletePost}
+              className="rounded-xl bg-destructive hover:bg-destructive/90"
+            >
+              Delete Post
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    </>
   );
 }
 
