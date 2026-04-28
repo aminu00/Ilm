@@ -100,9 +100,9 @@ export default function ExplorePage() {
                     : 'border-border bg-card hover:border-primary/30'
                 }`}
               >
-                <p className="font-medium text-sm">{cat.name}</p>
-                {cat.name_ar && <p className="text-xs text-muted-foreground font-display mt-0.5">{cat.name_ar}</p>}
-                {cat.description && <p className="text-xs text-muted-foreground mt-1 line-clamp-1">{cat.description}</p>}
+                <p className="font-medium text-sm break-words overflow-hidden">{cat.name}</p>
+                {cat.name_ar && <p className="text-xs text-muted-foreground font-display mt-0.5 break-words overflow-hidden">{cat.name_ar}</p>}
+                {cat.description && <p className="text-xs text-muted-foreground mt-1 line-clamp-1 break-words overflow-hidden">{cat.description}</p>}
               </button>
             ))}
           </div>

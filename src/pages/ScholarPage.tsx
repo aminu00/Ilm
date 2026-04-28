@@ -150,13 +150,13 @@ export default function ScholarPage() {
               <button
                 key={answer.id}
                 onClick={() => navigate(`/question/${answer.question_id}`)}
-                className="w-full text-left p-4 bg-card rounded-xl border border-border hover:border-primary/30 transition-all space-y-2"
+                className="w-full text-left p-4 bg-card rounded-xl border border-border hover:border-primary/30 transition-all space-y-2 overflow-hidden"
               >
-                <p className="text-sm font-medium line-clamp-2">
+                <p className="text-sm font-medium line-clamp-2 break-words overflow-hidden">
                   {answer.questions?.title ?? t('question')}
                 </p>
                 {answer.body && (
-                  <p className="text-xs text-muted-foreground line-clamp-2">{answer.body}</p>
+                  <p className="text-xs text-muted-foreground line-clamp-2 break-words overflow-hidden">{answer.body}</p>
                 )}
                 <div className="flex items-center gap-3 text-xs text-muted-foreground">
                   <span className="flex items-center gap-1">

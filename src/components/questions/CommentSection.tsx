@@ -113,7 +113,7 @@ export default function CommentSection({ answerId }: CommentSectionProps) {
                     </button>
                   )}
                 </div>
-                <p className="text-xs text-foreground leading-relaxed">{comment.body}</p>
+                <p className="text-xs text-foreground leading-relaxed break-words overflow-hidden">{comment.body}</p>
               </div>
             ))
           )}

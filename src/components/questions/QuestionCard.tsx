@@ -88,11 +88,11 @@ export default function QuestionCard({ question }: QuestionCardProps) {
               </span>
             </div>
 
-            <h3 className="font-semibold text-foreground leading-snug mb-1.5 line-clamp-2">
+            <h3 className="font-semibold text-foreground leading-snug mb-1.5 line-clamp-2 break-words overflow-hidden">
               {question.title}
             </h3>
 
-            <p className="text-sm text-muted-foreground line-clamp-2 mb-3">
+            <p className="text-sm text-muted-foreground line-clamp-2 mb-3 break-words overflow-hidden">
               {question.body}
             </p>
 

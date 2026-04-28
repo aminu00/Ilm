@@ -84,9 +84,9 @@ export default function CommunityListPage() {
                 {c.icon}
               </div>
               <div className="flex-1 min-w-0">
-                <p className="font-medium text-sm truncate">{c.name}</p>
+                <p className="font-medium text-sm truncate break-words overflow-hidden">{c.name}</p>
                 {c.description && (
-                  <p className="text-xs text-muted-foreground line-clamp-1 mt-0.5 break-words">{c.description}</p>
+                  <p className="text-xs text-muted-foreground line-clamp-1 mt-0.5 break-words overflow-hidden">{c.description}</p>
                 )}
                 <div className="flex items-center gap-1 mt-1 text-xs text-muted-foreground truncate">
                   <MessageSquare className="h-3 w-3 flex-shrink-0" />

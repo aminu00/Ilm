@@ -449,9 +449,9 @@ function ReportsTab({ t }: { t: (key: string) => string }) {
                     </div>
                   </div>
                   {r.post_body && (
-                    <p className="text-xs bg-muted/50 p-2 rounded-lg line-clamp-3">{r.post_body}</p>
+                    <p className="text-xs bg-muted/50 p-2 rounded-lg line-clamp-3 break-words overflow-hidden">{r.post_body}</p>
                   )}
-                  {r.details && <p className="text-xs text-muted-foreground italic">"{r.details}"</p>}
+                  {r.details && <p className="text-xs text-muted-foreground italic break-words overflow-hidden">"{r.details}"</p>}
                 </div>
               ))}
             </div>
@@ -525,11 +525,11 @@ function UserCard({
       </div>
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-1.5">
-          <p className="text-sm font-medium truncate">{user.display_name}</p>
+          <p className="text-sm font-medium truncate break-words overflow-hidden">{user.display_name}</p>
           {user.is_verified_scholar && <CheckCircle2 className="h-4 w-4 text-scholar shrink-0" />}
         </div>
-        {user.username && <p className="text-xs text-muted-foreground">@{user.username}</p>}
-        {user.scholar_title && <p className="text-xs text-muted-foreground">{user.scholar_title}</p>}
+        {user.username && <p className="text-xs text-muted-foreground break-words overflow-hidden">@{user.username}</p>}
+        {user.scholar_title && <p className="text-xs text-muted-foreground break-words overflow-hidden">{user.scholar_title}</p>}
         <div className="flex gap-1 mt-1">
           {user.roles.map((role) => (
             <Badge key={role} variant="secondary" className="text-[10px] capitalize py-0 h-5">

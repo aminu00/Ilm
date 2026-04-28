@@ -84,12 +84,12 @@ export default function NotificationsPage() {
                 <div className="mt-1 flex-shrink-0">{getNotificationIcon(notification.type)}</div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-start justify-between gap-2 mb-1">
-                    <h3 className="font-semibold text-sm">{notification.title}</h3>
+                    <h3 className="font-semibold text-sm break-words overflow-hidden">{notification.title}</h3>
                     {!notification.is_read && (
                       <div className="h-2 w-2 rounded-full bg-primary flex-shrink-0 mt-1.5" />
                     )}
                   </div>
-                  <p className="text-sm text-muted-foreground mb-2">{notification.message}</p>
+                  <p className="text-sm text-muted-foreground mb-2 break-words overflow-hidden">{notification.message}</p>
                   <span className="text-xs text-muted-foreground">
                     {formatDistanceToNow(new Date(notification.created_at), { addSuffix: true })}
                   </span>

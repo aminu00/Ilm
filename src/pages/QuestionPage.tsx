@@ -123,8 +123,8 @@ export default function QuestionPage() {
             )}
           </div>
 
-          <h2 className="text-xl font-display font-bold leading-snug">{question.title}</h2>
-          <p className="text-sm text-muted-foreground leading-relaxed whitespace-pre-wrap">{question.body}</p>
+          <h2 className="text-xl font-display font-bold leading-snug break-words overflow-hidden">{question.title}</h2>
+          <p className="text-sm text-muted-foreground leading-relaxed whitespace-pre-wrap break-words overflow-hidden">{question.body}</p>
 
           <div className="flex items-center gap-4 text-sm text-muted-foreground pt-2 border-t border-border">
             <span className="flex items-center gap-1">
@@ -166,15 +166,15 @@ export default function QuestionPage() {
                     <div className="h-9 w-9 rounded-full bg-primary/10 flex items-center justify-center text-primary font-semibold">
                       {answer.profiles?.display_name?.[0] ?? 'S'}
                     </div>
-                    <div className="text-left">
-                      <div className="flex items-center gap-1.5">
-                        <span className="text-sm font-medium">{answer.profiles?.display_name ?? 'Scholar'}</span>
+                    <div className="text-left min-w-0">
+                      <div className="flex items-center gap-1.5 min-w-0">
+                        <span className="text-sm font-medium truncate">{answer.profiles?.display_name ?? 'Scholar'}</span>
                         {answer.profiles?.is_verified_scholar && (
-                          <CheckCircle2 className="h-4 w-4 text-primary" />
+                          <CheckCircle2 className="h-4 w-4 text-primary flex-shrink-0" />
                         )}
                       </div>
                       {answer.profiles?.scholar_title && (
-                        <p className="text-xs text-muted-foreground">{answer.profiles.scholar_title}</p>
+                        <p className="text-xs text-muted-foreground break-words overflow-hidden">{answer.profiles.scholar_title}</p>
                       )}
                     </div>
                   </button>
@@ -182,7 +182,7 @@ export default function QuestionPage() {
                 </div>
 
                 {answer.body && (
-                  <p className="text-sm leading-relaxed whitespace-pre-wrap">{answer.body}</p>
+                  <p className="text-sm leading-relaxed whitespace-pre-wrap break-words overflow-hidden">{answer.body}</p>
                 )}
 
                 {answer.audio_url && (

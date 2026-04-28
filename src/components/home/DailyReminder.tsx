@@ -122,10 +122,10 @@ export default function DailyReminder() {
         </div>
         <span className="text-xs font-semibold text-primary uppercase tracking-wider">{label}</span>
       </div>
-      <p className="text-sm font-medium leading-relaxed text-foreground">
+      <p className="text-sm font-medium leading-relaxed text-foreground break-words overflow-hidden">
         {todayReminder.text[language] || todayReminder.text.en}
       </p>
-      <p className="text-xs text-muted-foreground mt-2">
+      <p className="text-xs text-muted-foreground mt-2 break-words overflow-hidden">
         {todayReminder.source[language] || todayReminder.source.en}
       </p>
     </div>

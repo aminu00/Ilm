@@ -66,15 +66,15 @@ export default function ProfilePage() {
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <h2 className="text-xl font-semibold">{profile?.display_name || 'User'}</h2>
+              <h2 className="text-xl font-semibold break-words overflow-hidden">{profile?.display_name || 'User'}</h2>
               {profile?.is_verified_scholar && (
                 <CheckCircle2 className="h-5 w-5 text-scholar" />
               )}
             </div>
             {profile?.username && (
-              <p className="text-sm text-muted-foreground">@{profile.username}</p>
+              <p className="text-sm text-muted-foreground break-words overflow-hidden">@{profile.username}</p>
             )}
-            <p className="text-xs text-muted-foreground">{user.email}</p>
+            <p className="text-xs text-muted-foreground break-words overflow-hidden">{user.email}</p>
             <div className="flex gap-1.5 mt-1.5">
               {roles?.map((role: string) => (
                 <Badge key={role} variant="secondary" className="text-xs capitalize">
@@ -86,7 +86,7 @@ export default function ProfilePage() {
         </div>
 
         {profile?.bio && (
-          <p className="text-sm text-muted-foreground">{profile.bio}</p>
+          <p className="text-sm text-muted-foreground break-words overflow-hidden">{profile.bio}</p>
         )}
 
         {profile?.is_verified_scholar && (
@@ -96,10 +96,10 @@ export default function ProfilePage() {
               <span className="text-sm font-medium text-scholar">{t('scholarProfile')}</span>
             </div>
             {profile.scholar_title && (
-              <p className="text-sm font-medium">{profile.scholar_title}</p>
+              <p className="text-sm font-medium break-words overflow-hidden">{profile.scholar_title}</p>
             )}
             {profile.scholar_specialization && (
-              <p className="text-xs text-muted-foreground">{profile.scholar_specialization}</p>
+              <p className="text-xs text-muted-foreground break-words overflow-hidden">{profile.scholar_specialization}</p>
             )}
           </div>
         )}
